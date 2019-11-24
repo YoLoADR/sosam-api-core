@@ -1,4 +1,4 @@
-async function user(parent, args, context, info) {
+async function feed(parent, args, context, info) {
   // Si "argument de filtre" on construit un ~ WHERE en SQL
   const where = args.filter
     ? {
@@ -8,20 +8,20 @@ async function user(parent, args, context, info) {
         ]
       }
     : {};
-  const links = await context.prisma.links({
+  const users = await context.prisma.users({
     where,
     skip: args.skip,
     first: args.first,
     orderBy: args.orderBy
   });
   const count = await context.prisma
-    .linksConnection({
+    .usersConnection({
       where
     })
     .aggregate()
     .count();
   return {
-    links,
+    users,
     count
   };
 }

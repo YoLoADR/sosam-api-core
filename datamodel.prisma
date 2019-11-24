@@ -1,4 +1,10 @@
 type User {
   id: ID! @id
   name: String!
+  email: String! @unique
+  createdAt: DateTime! @createdAt
+  description: String
+  password: String!
+  usertype: String
+  isAdmin: Boolean
 }

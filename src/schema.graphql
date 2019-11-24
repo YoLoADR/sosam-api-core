@@ -6,8 +6,9 @@ scalar DateTime
 # Le point d'exclamation dans la définition du type signifie que ce champ ne peut jamais être null.
 
 type Query {
-  info: () => `This is the API of a Hackernews Clone`,
-  user(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): User!
+  info: String!
+  # feed(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): Feed!
+  feed: Feed!
 }
 
 # post: Permet aux utilisateurs authentifiés de créer un nouveau lien
@@ -15,6 +16,7 @@ type Query {
 # login: Connecter un utilisateur existant
 # vote: Permet aux utilisateurs authentifiés de voter pour un lien existant
 type Mutation {
+  post(url: String!, description: String!): User!
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
 }
@@ -22,6 +24,12 @@ type Mutation {
 type AuthPayload {
   token: String
   user: User
+}
+
+# Récupère tous les liens du backend, notez que cette requête autorise également les arguments de filtrage, de tri et de pagination
+type Feed {
+  users: [User!]!
+  count: Int!
 }
 
 type User {
@@ -36,27 +44,27 @@ type User {
 }
 
 type CancelReason {
-  value: Number!
+  value: Int!
   label: String!
 }
 
 type Offer {
-  max_promo_discount_value: Number
-  min_order: Number
+  max_promo_discount_value: Int
+  min_order: Int
   promo_description: String
   promo_discount_type: String
-  promo_discount_value: Number
+  promo_discount_value: Int
   promo_name: String
   promo_start: String
-  promo_usage_limit: Number
+  promo_usage_limit: Int
   promo_validity: String
 }
 
 type CarType {
-  convenience_fees: Number
+  convenience_fees: Int
   image: String
   name: String
-  rate_per_hour: Number
+  rate_per_hour: Int
   rate_per_kilometer: String
   updatedAt: DateTime
 }
@@ -66,6 +74,15 @@ type Bonus {
   id: String
   key: String
   updatedAt: DateTime
+}
+
+enum UserOrderByInput {
+  description_ASC
+  description_DESC
+  url_ASC
+  url_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 # login(email: String!, password: String!): AuthPayload

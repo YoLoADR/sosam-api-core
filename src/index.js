@@ -3,7 +3,7 @@ const { GraphQLServer } = require("graphql-yoga");
 const { prisma } = require("./generated/prisma-client");
 const Query = require("./resolvers/Query");
 const Mutation = require("./resolvers/Mutation");
-const User = require("./resolvers/User");
+//const User = require("./resolvers/User");
 
 // Chaque champ de la définition de schéma est soutenu par une fonction de résolution ayant la responsabilité de renvoyer les données pour ce champ
 // l'objet entrant "parent" est l'élément de la liste "links".
@@ -11,7 +11,6 @@ const User = require("./resolvers/User");
 const resolvers = {
   Query,
   Mutation,
-  User
 };
 
 //Cela indique au serveur quelles opérations d'API sont acceptées et comment elles doivent être résolues.

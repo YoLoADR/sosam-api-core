@@ -1,0 +1,72 @@
+scalar DateTime
+# schema.graphql contient votre schéma d'application . Le schéma d'application définit les opérations GraphQL que vous pouvez envoyer depuis le frontend. Nous allons examiner de plus près ce fichier dans un instant.
+# Parmi les fichiers mentionnés, seul le schéma d'application défini dans server/src/schema.graphqlest pertinent pour vous en tant que développeur frontend. Ce fichier contient le schéma GraphQL qui définit toutes les opérations (requêtes, mutations et abonnements) que vous pouvez envoyer à partir de votre application frontale.
+
+# La typeDefsconstante définit votre schéma GraphQL
+# Le point d'exclamation dans la définition du type signifie que ce champ ne peut jamais être null.
+
+type Query {
+  info: () => `This is the API of a Hackernews Clone`,
+  user(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): User!
+}
+
+# post: Permet aux utilisateurs authentifiés de créer un nouveau lien
+# signup: Créer un compte pour un nouvel utilisateur
+# login: Connecter un utilisateur existant
+# vote: Permet aux utilisateurs authentifiés de voter pour un lien existant
+type Mutation {
+  signup(email: String!, password: String!, name: String!): AuthPayload
+  login(email: String!, password: String!): AuthPayload
+}
+
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  createdAt: DateTime!
+  description: String
+  url: String
+  usertype: String
+  isAdmin: Boolean
+}
+
+type CancelReason {
+  value: Number!
+  label: String!
+}
+
+type Offer {
+  max_promo_discount_value: Number
+  min_order: Number
+  promo_description: String
+  promo_discount_type: String
+  promo_discount_value: Number
+  promo_name: String
+  promo_start: String
+  promo_usage_limit: Number
+  promo_validity: String
+}
+
+type CarType {
+  convenience_fees: Number
+  image: String
+  name: String
+  rate_per_hour: Number
+  rate_per_kilometer: String
+  updatedAt: DateTime
+}
+
+type Bonus {
+  amount: String
+  id: String
+  key: String
+  updatedAt: DateTime
+}
+
+# login(email: String!, password: String!): AuthPayload
+# login est une fonction que prend deux paramètre email et password. Les deux sont de type String et le point d'exclamation indique qui est obligatoire "!". Les deux points ":" suivi d'un type concerne le return en gros ils retournent une valeur de type AuthPayload

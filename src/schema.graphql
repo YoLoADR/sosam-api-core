@@ -17,6 +17,7 @@ type Query {
 # vote: Permet aux utilisateurs authentifiés de voter pour un lien existant
 type Mutation {
   post(url: String!, description: String!): User!
+  postCancelReason(value: String!, label: String!): CancelReason
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
 }
@@ -44,7 +45,8 @@ type User {
 }
 
 type CancelReason {
-  value: Int!
+  id: ID!
+  value: String!
   label: String!
 }
 

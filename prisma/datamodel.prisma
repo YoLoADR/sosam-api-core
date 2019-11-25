@@ -8,3 +8,9 @@ type User {
   usertype: String
   isAdmin: Boolean
 }
+
+type CancelReason {
+  id: ID! @id
+  value: String!
+  label: String!
+}

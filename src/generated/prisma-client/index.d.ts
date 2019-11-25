@@ -16,6 +16,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  cancelReason: (where?: CancelReasonWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -38,6 +39,27 @@ export interface Prisma {
    * Queries
    */
 
+  cancelReason: (
+    where: CancelReasonWhereUniqueInput
+  ) => CancelReasonNullablePromise;
+  cancelReasons: (args?: {
+    where?: CancelReasonWhereInput;
+    orderBy?: CancelReasonOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<CancelReason>;
+  cancelReasonsConnection: (args?: {
+    where?: CancelReasonWhereInput;
+    orderBy?: CancelReasonOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => CancelReasonConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -63,6 +85,26 @@ export interface Prisma {
    * Mutations
    */
 
+  createCancelReason: (data: CancelReasonCreateInput) => CancelReasonPromise;
+  updateCancelReason: (args: {
+    data: CancelReasonUpdateInput;
+    where: CancelReasonWhereUniqueInput;
+  }) => CancelReasonPromise;
+  updateManyCancelReasons: (args: {
+    data: CancelReasonUpdateManyMutationInput;
+    where?: CancelReasonWhereInput;
+  }) => BatchPayloadPromise;
+  upsertCancelReason: (args: {
+    where: CancelReasonWhereUniqueInput;
+    create: CancelReasonCreateInput;
+    update: CancelReasonUpdateInput;
+  }) => CancelReasonPromise;
+  deleteCancelReason: (
+    where: CancelReasonWhereUniqueInput
+  ) => CancelReasonPromise;
+  deleteManyCancelReasons: (
+    where?: CancelReasonWhereInput
+  ) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -88,6 +130,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  cancelReason: (
+    where?: CancelReasonSubscriptionWhereInput
+  ) => CancelReasonSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -100,6 +145,16 @@ export interface ClientConstructor<T> {
 /**
  * Types
  */
+
+export type CancelReasonOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "value_ASC"
+  | "value_DESC"
+  | "label_ASC"
+  | "label_DESC";
+
+export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -119,8 +174,6 @@ export type UserOrderByInput =
   | "isAdmin_ASC"
   | "isAdmin_DESC";
 
-export type MutationType = "CREATED" | "UPDATED" | "DELETED";
-
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
@@ -129,6 +182,63 @@ export interface UserCreateInput {
   password: String;
   usertype?: Maybe<String>;
   isAdmin?: Maybe<Boolean>;
+}
+
+export interface CancelReasonUpdateInput {
+  value?: Maybe<String>;
+  label?: Maybe<String>;
+}
+
+export type CancelReasonWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface CancelReasonWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  value?: Maybe<String>;
+  value_not?: Maybe<String>;
+  value_in?: Maybe<String[] | String>;
+  value_not_in?: Maybe<String[] | String>;
+  value_lt?: Maybe<String>;
+  value_lte?: Maybe<String>;
+  value_gt?: Maybe<String>;
+  value_gte?: Maybe<String>;
+  value_contains?: Maybe<String>;
+  value_not_contains?: Maybe<String>;
+  value_starts_with?: Maybe<String>;
+  value_not_starts_with?: Maybe<String>;
+  value_ends_with?: Maybe<String>;
+  value_not_ends_with?: Maybe<String>;
+  label?: Maybe<String>;
+  label_not?: Maybe<String>;
+  label_in?: Maybe<String[] | String>;
+  label_not_in?: Maybe<String[] | String>;
+  label_lt?: Maybe<String>;
+  label_lte?: Maybe<String>;
+  label_gt?: Maybe<String>;
+  label_gte?: Maybe<String>;
+  label_contains?: Maybe<String>;
+  label_not_contains?: Maybe<String>;
+  label_starts_with?: Maybe<String>;
+  label_not_starts_with?: Maybe<String>;
+  label_ends_with?: Maybe<String>;
+  label_not_ends_with?: Maybe<String>;
+  AND?: Maybe<CancelReasonWhereInput[] | CancelReasonWhereInput>;
+  OR?: Maybe<CancelReasonWhereInput[] | CancelReasonWhereInput>;
+  NOT?: Maybe<CancelReasonWhereInput[] | CancelReasonWhereInput>;
 }
 
 export interface UserWhereInput {
@@ -231,6 +341,50 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
+export interface CancelReasonCreateInput {
+  id?: Maybe<ID_Input>;
+  value: String;
+  label: String;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+}>;
+
+export interface CancelReasonSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<CancelReasonWhereInput>;
+  AND?: Maybe<
+    CancelReasonSubscriptionWhereInput[] | CancelReasonSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    CancelReasonSubscriptionWhereInput[] | CancelReasonSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    CancelReasonSubscriptionWhereInput[] | CancelReasonSubscriptionWhereInput
+  >;
+}
+
+export interface CancelReasonUpdateManyMutationInput {
+  value?: Maybe<String>;
+  label?: Maybe<String>;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+}
+
 export interface UserUpdateInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
@@ -248,22 +402,6 @@ export interface UserUpdateManyMutationInput {
   usertype?: Maybe<String>;
   isAdmin?: Maybe<Boolean>;
 }
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-}>;
 
 export interface NodeNode {
   id: ID_Output;
@@ -323,6 +461,27 @@ export interface UserPreviousValuesSubscription
   isAdmin: () => Promise<AsyncIterator<Boolean>>;
 }
 
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
+}
+
 export interface PageInfo {
   hasNextPage: Boolean;
   hasPreviousPage: Boolean;
@@ -346,22 +505,6 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
 export interface AggregateUser {
   count: Int;
 }
@@ -378,29 +521,25 @@ export interface AggregateUserSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
+export interface CancelReasonConnection {
+  pageInfo: PageInfo;
+  edges: CancelReasonEdge[];
 }
 
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
+export interface CancelReasonConnectionPromise
+  extends Promise<CancelReasonConnection>,
     Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<CancelReasonEdge>>() => T;
+  aggregate: <T = AggregateCancelReasonPromise>() => T;
 }
 
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+export interface CancelReasonConnectionSubscription
+  extends Promise<AsyncIterator<CancelReasonConnection>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CancelReasonEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCancelReasonSubscription>() => T;
 }
 
 export interface User {
@@ -451,26 +590,176 @@ export interface UserNullablePromise
   isAdmin: () => Promise<Boolean>;
 }
 
-export interface UserConnection {
-  pageInfo: PageInfo;
-  edges: UserEdge[];
+export interface CancelReasonSubscriptionPayload {
+  mutation: MutationType;
+  node: CancelReason;
+  updatedFields: String[];
+  previousValues: CancelReasonPreviousValues;
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface CancelReasonSubscriptionPayloadPromise
+  extends Promise<CancelReasonSubscriptionPayload>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  mutation: () => Promise<MutationType>;
+  node: <T = CancelReasonPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CancelReasonPreviousValuesPromise>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface CancelReasonSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CancelReasonSubscriptionPayload>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CancelReasonSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CancelReasonPreviousValuesSubscription>() => T;
 }
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface AggregateCancelReason {
+  count: Int;
+}
+
+export interface AggregateCancelReasonPromise
+  extends Promise<AggregateCancelReason>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCancelReasonSubscription
+  extends Promise<AsyncIterator<AggregateCancelReason>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface CancelReasonPreviousValues {
+  id: ID_Output;
+  value: String;
+  label: String;
+}
+
+export interface CancelReasonPreviousValuesPromise
+  extends Promise<CancelReasonPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  value: () => Promise<String>;
+  label: () => Promise<String>;
+}
+
+export interface CancelReasonPreviousValuesSubscription
+  extends Promise<AsyncIterator<CancelReasonPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  value: () => Promise<AsyncIterator<String>>;
+  label: () => Promise<AsyncIterator<String>>;
+}
+
+export interface CancelReason {
+  id: ID_Output;
+  value: String;
+  label: String;
+}
+
+export interface CancelReasonPromise
+  extends Promise<CancelReason>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  value: () => Promise<String>;
+  label: () => Promise<String>;
+}
+
+export interface CancelReasonSubscription
+  extends Promise<AsyncIterator<CancelReason>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  value: () => Promise<AsyncIterator<String>>;
+  label: () => Promise<AsyncIterator<String>>;
+}
+
+export interface CancelReasonNullablePromise
+  extends Promise<CancelReason | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  value: () => Promise<String>;
+  label: () => Promise<String>;
+}
+
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
+}
+
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
+}
+
+export interface CancelReasonEdge {
+  node: CancelReason;
+  cursor: String;
+}
+
+export interface CancelReasonEdgePromise
+  extends Promise<CancelReasonEdge>,
+    Fragmentable {
+  node: <T = CancelReasonPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface CancelReasonEdgeSubscription
+  extends Promise<AsyncIterator<CancelReasonEdge>>,
+    Fragmentable {
+  node: <T = CancelReasonSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
+
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
+
+export type Long = string;
+
+/*
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+*/
+export type ID_Input = string | number;
+export type ID_Output = string;
 
 /*
 DateTime scalar input type, allowing Date
@@ -487,24 +776,6 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 */
 export type String = string;
 
-export type Long = string;
-
-/*
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
-*/
-export type ID_Input = string | number;
-export type ID_Output = string;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-*/
-export type Int = number;
-
 /**
  * Model Metadata
  */
@@ -512,6 +783,10 @@ export type Int = number;
 export const models: Model[] = [
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "CancelReason",
     embedded: false
   }
 ];

@@ -3,7 +3,11 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateUser {
+/* GraphQL */ `type AggregateCancelReason {
+  count: Int!
+}
+
+type AggregateUser {
   count: Int!
 }
 
@@ -11,11 +15,135 @@ type BatchPayload {
   count: Long!
 }
 
+type CancelReason {
+  id: ID!
+  value: String!
+  label: String!
+}
+
+type CancelReasonConnection {
+  pageInfo: PageInfo!
+  edges: [CancelReasonEdge]!
+  aggregate: AggregateCancelReason!
+}
+
+input CancelReasonCreateInput {
+  id: ID
+  value: String!
+  label: String!
+}
+
+type CancelReasonEdge {
+  node: CancelReason!
+  cursor: String!
+}
+
+enum CancelReasonOrderByInput {
+  id_ASC
+  id_DESC
+  value_ASC
+  value_DESC
+  label_ASC
+  label_DESC
+}
+
+type CancelReasonPreviousValues {
+  id: ID!
+  value: String!
+  label: String!
+}
+
+type CancelReasonSubscriptionPayload {
+  mutation: MutationType!
+  node: CancelReason
+  updatedFields: [String!]
+  previousValues: CancelReasonPreviousValues
+}
+
+input CancelReasonSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CancelReasonWhereInput
+  AND: [CancelReasonSubscriptionWhereInput!]
+  OR: [CancelReasonSubscriptionWhereInput!]
+  NOT: [CancelReasonSubscriptionWhereInput!]
+}
+
+input CancelReasonUpdateInput {
+  value: String
+  label: String
+}
+
+input CancelReasonUpdateManyMutationInput {
+  value: String
+  label: String
+}
+
+input CancelReasonWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  value: String
+  value_not: String
+  value_in: [String!]
+  value_not_in: [String!]
+  value_lt: String
+  value_lte: String
+  value_gt: String
+  value_gte: String
+  value_contains: String
+  value_not_contains: String
+  value_starts_with: String
+  value_not_starts_with: String
+  value_ends_with: String
+  value_not_ends_with: String
+  label: String
+  label_not: String
+  label_in: [String!]
+  label_not_in: [String!]
+  label_lt: String
+  label_lte: String
+  label_gt: String
+  label_gte: String
+  label_contains: String
+  label_not_contains: String
+  label_starts_with: String
+  label_not_starts_with: String
+  label_ends_with: String
+  label_not_ends_with: String
+  AND: [CancelReasonWhereInput!]
+  OR: [CancelReasonWhereInput!]
+  NOT: [CancelReasonWhereInput!]
+}
+
+input CancelReasonWhereUniqueInput {
+  id: ID
+}
+
 scalar DateTime
 
 scalar Long
 
 type Mutation {
+  createCancelReason(data: CancelReasonCreateInput!): CancelReason!
+  updateCancelReason(data: CancelReasonUpdateInput!, where: CancelReasonWhereUniqueInput!): CancelReason
+  updateManyCancelReasons(data: CancelReasonUpdateManyMutationInput!, where: CancelReasonWhereInput): BatchPayload!
+  upsertCancelReason(where: CancelReasonWhereUniqueInput!, create: CancelReasonCreateInput!, update: CancelReasonUpdateInput!): CancelReason!
+  deleteCancelReason(where: CancelReasonWhereUniqueInput!): CancelReason
+  deleteManyCancelReasons(where: CancelReasonWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -42,6 +170,9 @@ type PageInfo {
 }
 
 type Query {
+  cancelReason(where: CancelReasonWhereUniqueInput!): CancelReason
+  cancelReasons(where: CancelReasonWhereInput, orderBy: CancelReasonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CancelReason]!
+  cancelReasonsConnection(where: CancelReasonWhereInput, orderBy: CancelReasonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CancelReasonConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -49,6 +180,7 @@ type Query {
 }
 
 type Subscription {
+  cancelReason(where: CancelReasonSubscriptionWhereInput): CancelReasonSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 

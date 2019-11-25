@@ -18,6 +18,20 @@ async function signup(parent, args, context, info) {
   };
 }
 
+// async function postCancelReason(parent, args, context, info) {
+//   const userId = getUserId(context);
+//   console.log("args", args);
+//   console.log("context.prisma", context.prisma);
+//   const cancelReason = await context.prisma.createCancelReason({
+//     value: args.value,
+//     label: args.label
+//   });
+
+//   return {
+//     cancelReason
+//   };
+// }
+
 // Au lieu de créer un nouvel Userobjet, vous utilisez maintenant l' prismainstance client pour récupérer l' Userenregistrement existant à l' aide de l' emailadresse envoyée en tant qu'argument dans la loginmutation. Si aucune Useradresse e-mail n'a été trouvée, vous retournez une erreur correspondante.
 
 async function login(parent, args, context, info) {
@@ -50,8 +64,19 @@ function post(parent, args, context, info) {
   });
 }
 
+function postCancelReason(parent, args, context, info) {
+  const userId = getUserId(context);
+  console.log("args", args);
+  console.log("context.prisma", context.prisma);
+  return context.prisma.createCancelReason({
+    value: args.value,
+    label: args.label
+  });
+}
+
 module.exports = {
   signup,
   login,
-  post
+  post,
+  postCancelReason
 };

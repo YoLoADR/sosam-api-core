@@ -17,6 +17,7 @@ export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
   cancelReason: (where?: CancelReasonWhereInput) => Promise<boolean>;
+  offer: (where?: OfferWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -60,6 +61,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => CancelReasonConnectionPromise;
+  offer: (where: OfferWhereUniqueInput) => OfferNullablePromise;
+  offers: (args?: {
+    where?: OfferWhereInput;
+    orderBy?: OfferOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Offer>;
+  offersConnection: (args?: {
+    where?: OfferWhereInput;
+    orderBy?: OfferOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => OfferConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -105,6 +125,22 @@ export interface Prisma {
   deleteManyCancelReasons: (
     where?: CancelReasonWhereInput
   ) => BatchPayloadPromise;
+  createOffer: (data: OfferCreateInput) => OfferPromise;
+  updateOffer: (args: {
+    data: OfferUpdateInput;
+    where: OfferWhereUniqueInput;
+  }) => OfferPromise;
+  updateManyOffers: (args: {
+    data: OfferUpdateManyMutationInput;
+    where?: OfferWhereInput;
+  }) => BatchPayloadPromise;
+  upsertOffer: (args: {
+    where: OfferWhereUniqueInput;
+    create: OfferCreateInput;
+    update: OfferUpdateInput;
+  }) => OfferPromise;
+  deleteOffer: (where: OfferWhereUniqueInput) => OfferPromise;
+  deleteManyOffers: (where?: OfferWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -133,6 +169,9 @@ export interface Subscription {
   cancelReason: (
     where?: CancelReasonSubscriptionWhereInput
   ) => CancelReasonSubscriptionPayloadSubscription;
+  offer: (
+    where?: OfferSubscriptionWhereInput
+  ) => OfferSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -156,6 +195,28 @@ export type CancelReasonOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
+export type OfferOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "max_promo_discount_value_ASC"
+  | "max_promo_discount_value_DESC"
+  | "min_order_ASC"
+  | "min_order_DESC"
+  | "promo_description_ASC"
+  | "promo_description_DESC"
+  | "promo_discount_type_ASC"
+  | "promo_discount_type_DESC"
+  | "promo_discount_value_ASC"
+  | "promo_discount_value_DESC"
+  | "promo_name_ASC"
+  | "promo_name_DESC"
+  | "promo_start_ASC"
+  | "promo_start_DESC"
+  | "promo_usage_limit_ASC"
+  | "promo_usage_limit_DESC"
+  | "promo_validity_ASC"
+  | "promo_validity_DESC";
+
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -174,24 +235,37 @@ export type UserOrderByInput =
   | "isAdmin_ASC"
   | "isAdmin_DESC";
 
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  email: String;
-  description?: Maybe<String>;
-  password: String;
-  usertype?: Maybe<String>;
-  isAdmin?: Maybe<Boolean>;
-}
+export type OfferWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
-export interface CancelReasonUpdateInput {
-  value?: Maybe<String>;
-  label?: Maybe<String>;
+export interface OfferSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<OfferWhereInput>;
+  AND?: Maybe<OfferSubscriptionWhereInput[] | OfferSubscriptionWhereInput>;
+  OR?: Maybe<OfferSubscriptionWhereInput[] | OfferSubscriptionWhereInput>;
+  NOT?: Maybe<OfferSubscriptionWhereInput[] | OfferSubscriptionWhereInput>;
 }
 
 export type CancelReasonWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
+
+export interface OfferCreateInput {
+  id?: Maybe<ID_Input>;
+  max_promo_discount_value?: Maybe<Int>;
+  min_order?: Maybe<Int>;
+  promo_description?: Maybe<String>;
+  promo_discount_type?: Maybe<String>;
+  promo_discount_value?: Maybe<Int>;
+  promo_name?: Maybe<String>;
+  promo_start?: Maybe<String>;
+  promo_usage_limit?: Maybe<Int>;
+  promo_validity?: Maybe<String>;
+}
 
 export interface CancelReasonWhereInput {
   id?: Maybe<ID_Input>;
@@ -239,6 +313,46 @@ export interface CancelReasonWhereInput {
   AND?: Maybe<CancelReasonWhereInput[] | CancelReasonWhereInput>;
   OR?: Maybe<CancelReasonWhereInput[] | CancelReasonWhereInput>;
   NOT?: Maybe<CancelReasonWhereInput[] | CancelReasonWhereInput>;
+}
+
+export interface CancelReasonUpdateManyMutationInput {
+  value?: Maybe<String>;
+  label?: Maybe<String>;
+}
+
+export interface UserUpdateManyMutationInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  description?: Maybe<String>;
+  password?: Maybe<String>;
+  usertype?: Maybe<String>;
+  isAdmin?: Maybe<Boolean>;
+}
+
+export interface CancelReasonUpdateInput {
+  value?: Maybe<String>;
+  label?: Maybe<String>;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  email: String;
+  description?: Maybe<String>;
+  password: String;
+  usertype?: Maybe<String>;
+  isAdmin?: Maybe<Boolean>;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
 }
 
 export interface UserWhereInput {
@@ -352,6 +466,39 @@ export type UserWhereUniqueInput = AtLeastOne<{
   email?: Maybe<String>;
 }>;
 
+export interface OfferUpdateInput {
+  max_promo_discount_value?: Maybe<Int>;
+  min_order?: Maybe<Int>;
+  promo_description?: Maybe<String>;
+  promo_discount_type?: Maybe<String>;
+  promo_discount_value?: Maybe<Int>;
+  promo_name?: Maybe<String>;
+  promo_start?: Maybe<String>;
+  promo_usage_limit?: Maybe<Int>;
+  promo_validity?: Maybe<String>;
+}
+
+export interface OfferUpdateManyMutationInput {
+  max_promo_discount_value?: Maybe<Int>;
+  min_order?: Maybe<Int>;
+  promo_description?: Maybe<String>;
+  promo_discount_type?: Maybe<String>;
+  promo_discount_value?: Maybe<Int>;
+  promo_name?: Maybe<String>;
+  promo_start?: Maybe<String>;
+  promo_usage_limit?: Maybe<Int>;
+  promo_validity?: Maybe<String>;
+}
+
+export interface UserUpdateInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  description?: Maybe<String>;
+  password?: Maybe<String>;
+  usertype?: Maybe<String>;
+  isAdmin?: Maybe<Boolean>;
+}
+
 export interface CancelReasonSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
@@ -369,58 +516,169 @@ export interface CancelReasonSubscriptionWhereInput {
   >;
 }
 
-export interface CancelReasonUpdateManyMutationInput {
-  value?: Maybe<String>;
-  label?: Maybe<String>;
-}
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-}
-
-export interface UserUpdateInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  description?: Maybe<String>;
-  password?: Maybe<String>;
-  usertype?: Maybe<String>;
-  isAdmin?: Maybe<Boolean>;
-}
-
-export interface UserUpdateManyMutationInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  description?: Maybe<String>;
-  password?: Maybe<String>;
-  usertype?: Maybe<String>;
-  isAdmin?: Maybe<Boolean>;
+export interface OfferWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  max_promo_discount_value?: Maybe<Int>;
+  max_promo_discount_value_not?: Maybe<Int>;
+  max_promo_discount_value_in?: Maybe<Int[] | Int>;
+  max_promo_discount_value_not_in?: Maybe<Int[] | Int>;
+  max_promo_discount_value_lt?: Maybe<Int>;
+  max_promo_discount_value_lte?: Maybe<Int>;
+  max_promo_discount_value_gt?: Maybe<Int>;
+  max_promo_discount_value_gte?: Maybe<Int>;
+  min_order?: Maybe<Int>;
+  min_order_not?: Maybe<Int>;
+  min_order_in?: Maybe<Int[] | Int>;
+  min_order_not_in?: Maybe<Int[] | Int>;
+  min_order_lt?: Maybe<Int>;
+  min_order_lte?: Maybe<Int>;
+  min_order_gt?: Maybe<Int>;
+  min_order_gte?: Maybe<Int>;
+  promo_description?: Maybe<String>;
+  promo_description_not?: Maybe<String>;
+  promo_description_in?: Maybe<String[] | String>;
+  promo_description_not_in?: Maybe<String[] | String>;
+  promo_description_lt?: Maybe<String>;
+  promo_description_lte?: Maybe<String>;
+  promo_description_gt?: Maybe<String>;
+  promo_description_gte?: Maybe<String>;
+  promo_description_contains?: Maybe<String>;
+  promo_description_not_contains?: Maybe<String>;
+  promo_description_starts_with?: Maybe<String>;
+  promo_description_not_starts_with?: Maybe<String>;
+  promo_description_ends_with?: Maybe<String>;
+  promo_description_not_ends_with?: Maybe<String>;
+  promo_discount_type?: Maybe<String>;
+  promo_discount_type_not?: Maybe<String>;
+  promo_discount_type_in?: Maybe<String[] | String>;
+  promo_discount_type_not_in?: Maybe<String[] | String>;
+  promo_discount_type_lt?: Maybe<String>;
+  promo_discount_type_lte?: Maybe<String>;
+  promo_discount_type_gt?: Maybe<String>;
+  promo_discount_type_gte?: Maybe<String>;
+  promo_discount_type_contains?: Maybe<String>;
+  promo_discount_type_not_contains?: Maybe<String>;
+  promo_discount_type_starts_with?: Maybe<String>;
+  promo_discount_type_not_starts_with?: Maybe<String>;
+  promo_discount_type_ends_with?: Maybe<String>;
+  promo_discount_type_not_ends_with?: Maybe<String>;
+  promo_discount_value?: Maybe<Int>;
+  promo_discount_value_not?: Maybe<Int>;
+  promo_discount_value_in?: Maybe<Int[] | Int>;
+  promo_discount_value_not_in?: Maybe<Int[] | Int>;
+  promo_discount_value_lt?: Maybe<Int>;
+  promo_discount_value_lte?: Maybe<Int>;
+  promo_discount_value_gt?: Maybe<Int>;
+  promo_discount_value_gte?: Maybe<Int>;
+  promo_name?: Maybe<String>;
+  promo_name_not?: Maybe<String>;
+  promo_name_in?: Maybe<String[] | String>;
+  promo_name_not_in?: Maybe<String[] | String>;
+  promo_name_lt?: Maybe<String>;
+  promo_name_lte?: Maybe<String>;
+  promo_name_gt?: Maybe<String>;
+  promo_name_gte?: Maybe<String>;
+  promo_name_contains?: Maybe<String>;
+  promo_name_not_contains?: Maybe<String>;
+  promo_name_starts_with?: Maybe<String>;
+  promo_name_not_starts_with?: Maybe<String>;
+  promo_name_ends_with?: Maybe<String>;
+  promo_name_not_ends_with?: Maybe<String>;
+  promo_start?: Maybe<String>;
+  promo_start_not?: Maybe<String>;
+  promo_start_in?: Maybe<String[] | String>;
+  promo_start_not_in?: Maybe<String[] | String>;
+  promo_start_lt?: Maybe<String>;
+  promo_start_lte?: Maybe<String>;
+  promo_start_gt?: Maybe<String>;
+  promo_start_gte?: Maybe<String>;
+  promo_start_contains?: Maybe<String>;
+  promo_start_not_contains?: Maybe<String>;
+  promo_start_starts_with?: Maybe<String>;
+  promo_start_not_starts_with?: Maybe<String>;
+  promo_start_ends_with?: Maybe<String>;
+  promo_start_not_ends_with?: Maybe<String>;
+  promo_usage_limit?: Maybe<Int>;
+  promo_usage_limit_not?: Maybe<Int>;
+  promo_usage_limit_in?: Maybe<Int[] | Int>;
+  promo_usage_limit_not_in?: Maybe<Int[] | Int>;
+  promo_usage_limit_lt?: Maybe<Int>;
+  promo_usage_limit_lte?: Maybe<Int>;
+  promo_usage_limit_gt?: Maybe<Int>;
+  promo_usage_limit_gte?: Maybe<Int>;
+  promo_validity?: Maybe<String>;
+  promo_validity_not?: Maybe<String>;
+  promo_validity_in?: Maybe<String[] | String>;
+  promo_validity_not_in?: Maybe<String[] | String>;
+  promo_validity_lt?: Maybe<String>;
+  promo_validity_lte?: Maybe<String>;
+  promo_validity_gt?: Maybe<String>;
+  promo_validity_gte?: Maybe<String>;
+  promo_validity_contains?: Maybe<String>;
+  promo_validity_not_contains?: Maybe<String>;
+  promo_validity_starts_with?: Maybe<String>;
+  promo_validity_not_starts_with?: Maybe<String>;
+  promo_validity_ends_with?: Maybe<String>;
+  promo_validity_not_ends_with?: Maybe<String>;
+  AND?: Maybe<OfferWhereInput[] | OfferWhereInput>;
+  OR?: Maybe<OfferWhereInput[] | OfferWhereInput>;
+  NOT?: Maybe<OfferWhereInput[] | OfferWhereInput>;
 }
 
 export interface NodeNode {
   id: ID_Output;
 }
 
-export interface UserEdge {
-  node: User;
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
+}
+
+export interface CancelReasonEdge {
+  node: CancelReason;
   cursor: String;
 }
 
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
+export interface CancelReasonEdgePromise
+  extends Promise<CancelReasonEdge>,
+    Fragmentable {
+  node: <T = CancelReasonPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
+export interface CancelReasonEdgeSubscription
+  extends Promise<AsyncIterator<CancelReasonEdge>>,
     Fragmentable {
-  node: <T = UserSubscription>() => T;
+  node: <T = CancelReasonSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
@@ -461,25 +719,124 @@ export interface UserPreviousValuesSubscription
   isAdmin: () => Promise<AsyncIterator<Boolean>>;
 }
 
-export interface UserConnection {
-  pageInfo: PageInfo;
-  edges: UserEdge[];
+export interface AggregateCancelReason {
+  count: Int;
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface AggregateCancelReasonPromise
+  extends Promise<AggregateCancelReason>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  count: () => Promise<Int>;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface AggregateCancelReasonSubscription
+  extends Promise<AsyncIterator<AggregateCancelReason>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface OfferSubscriptionPayload {
+  mutation: MutationType;
+  node: Offer;
+  updatedFields: String[];
+  previousValues: OfferPreviousValues;
+}
+
+export interface OfferSubscriptionPayloadPromise
+  extends Promise<OfferSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = OfferPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = OfferPreviousValuesPromise>() => T;
+}
+
+export interface OfferSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<OfferSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = OfferSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = OfferPreviousValuesSubscription>() => T;
+}
+
+export interface UserEdge {
+  node: User;
+  cursor: String;
+}
+
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
+    Fragmentable {
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateUser {
+  count: Int;
+}
+
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface CancelReason {
+  id: ID_Output;
+  value: String;
+  label: String;
+}
+
+export interface CancelReasonPromise
+  extends Promise<CancelReason>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  value: () => Promise<String>;
+  label: () => Promise<String>;
+}
+
+export interface CancelReasonSubscription
+  extends Promise<AsyncIterator<CancelReason>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  value: () => Promise<AsyncIterator<String>>;
+  label: () => Promise<AsyncIterator<String>>;
+}
+
+export interface CancelReasonNullablePromise
+  extends Promise<CancelReason | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  value: () => Promise<String>;
+  label: () => Promise<String>;
+}
+
+export interface AggregateOffer {
+  count: Int;
+}
+
+export interface AggregateOfferPromise
+  extends Promise<AggregateOffer>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateOfferSubscription
+  extends Promise<AsyncIterator<AggregateOffer>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface PageInfo {
@@ -505,20 +862,131 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateUser {
-  count: Int;
+export interface BatchPayload {
+  count: Long;
 }
 
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
     Fragmentable {
-  count: () => Promise<Int>;
+  count: () => Promise<Long>;
 }
 
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface OfferConnection {
+  pageInfo: PageInfo;
+  edges: OfferEdge[];
+}
+
+export interface OfferConnectionPromise
+  extends Promise<OfferConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<OfferEdge>>() => T;
+  aggregate: <T = AggregateOfferPromise>() => T;
+}
+
+export interface OfferConnectionSubscription
+  extends Promise<AsyncIterator<OfferConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<OfferEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateOfferSubscription>() => T;
+}
+
+export interface CancelReasonPreviousValues {
+  id: ID_Output;
+  value: String;
+  label: String;
+}
+
+export interface CancelReasonPreviousValuesPromise
+  extends Promise<CancelReasonPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  value: () => Promise<String>;
+  label: () => Promise<String>;
+}
+
+export interface CancelReasonPreviousValuesSubscription
+  extends Promise<AsyncIterator<CancelReasonPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  value: () => Promise<AsyncIterator<String>>;
+  label: () => Promise<AsyncIterator<String>>;
+}
+
+export interface CancelReasonSubscriptionPayload {
+  mutation: MutationType;
+  node: CancelReason;
+  updatedFields: String[];
+  previousValues: CancelReasonPreviousValues;
+}
+
+export interface CancelReasonSubscriptionPayloadPromise
+  extends Promise<CancelReasonSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = CancelReasonPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CancelReasonPreviousValuesPromise>() => T;
+}
+
+export interface CancelReasonSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CancelReasonSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CancelReasonSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CancelReasonPreviousValuesSubscription>() => T;
+}
+
+export interface OfferPreviousValues {
+  id: ID_Output;
+  max_promo_discount_value?: Int;
+  min_order?: Int;
+  promo_description?: String;
+  promo_discount_type?: String;
+  promo_discount_value?: Int;
+  promo_name?: String;
+  promo_start?: String;
+  promo_usage_limit?: Int;
+  promo_validity?: String;
+}
+
+export interface OfferPreviousValuesPromise
+  extends Promise<OfferPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  max_promo_discount_value: () => Promise<Int>;
+  min_order: () => Promise<Int>;
+  promo_description: () => Promise<String>;
+  promo_discount_type: () => Promise<String>;
+  promo_discount_value: () => Promise<Int>;
+  promo_name: () => Promise<String>;
+  promo_start: () => Promise<String>;
+  promo_usage_limit: () => Promise<Int>;
+  promo_validity: () => Promise<String>;
+}
+
+export interface OfferPreviousValuesSubscription
+  extends Promise<AsyncIterator<OfferPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  max_promo_discount_value: () => Promise<AsyncIterator<Int>>;
+  min_order: () => Promise<AsyncIterator<Int>>;
+  promo_description: () => Promise<AsyncIterator<String>>;
+  promo_discount_type: () => Promise<AsyncIterator<String>>;
+  promo_discount_value: () => Promise<AsyncIterator<Int>>;
+  promo_name: () => Promise<AsyncIterator<String>>;
+  promo_start: () => Promise<AsyncIterator<String>>;
+  promo_usage_limit: () => Promise<AsyncIterator<Int>>;
+  promo_validity: () => Promise<AsyncIterator<String>>;
 }
 
 export interface CancelReasonConnection {
@@ -540,6 +1008,104 @@ export interface CancelReasonConnectionSubscription
   pageInfo: <T = PageInfoSubscription>() => T;
   edges: <T = Promise<AsyncIterator<CancelReasonEdgeSubscription>>>() => T;
   aggregate: <T = AggregateCancelReasonSubscription>() => T;
+}
+
+export interface Offer {
+  id: ID_Output;
+  max_promo_discount_value?: Int;
+  min_order?: Int;
+  promo_description?: String;
+  promo_discount_type?: String;
+  promo_discount_value?: Int;
+  promo_name?: String;
+  promo_start?: String;
+  promo_usage_limit?: Int;
+  promo_validity?: String;
+}
+
+export interface OfferPromise extends Promise<Offer>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  max_promo_discount_value: () => Promise<Int>;
+  min_order: () => Promise<Int>;
+  promo_description: () => Promise<String>;
+  promo_discount_type: () => Promise<String>;
+  promo_discount_value: () => Promise<Int>;
+  promo_name: () => Promise<String>;
+  promo_start: () => Promise<String>;
+  promo_usage_limit: () => Promise<Int>;
+  promo_validity: () => Promise<String>;
+}
+
+export interface OfferSubscription
+  extends Promise<AsyncIterator<Offer>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  max_promo_discount_value: () => Promise<AsyncIterator<Int>>;
+  min_order: () => Promise<AsyncIterator<Int>>;
+  promo_description: () => Promise<AsyncIterator<String>>;
+  promo_discount_type: () => Promise<AsyncIterator<String>>;
+  promo_discount_value: () => Promise<AsyncIterator<Int>>;
+  promo_name: () => Promise<AsyncIterator<String>>;
+  promo_start: () => Promise<AsyncIterator<String>>;
+  promo_usage_limit: () => Promise<AsyncIterator<Int>>;
+  promo_validity: () => Promise<AsyncIterator<String>>;
+}
+
+export interface OfferNullablePromise
+  extends Promise<Offer | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  max_promo_discount_value: () => Promise<Int>;
+  min_order: () => Promise<Int>;
+  promo_description: () => Promise<String>;
+  promo_discount_type: () => Promise<String>;
+  promo_discount_value: () => Promise<Int>;
+  promo_name: () => Promise<String>;
+  promo_start: () => Promise<String>;
+  promo_usage_limit: () => Promise<Int>;
+  promo_validity: () => Promise<String>;
+}
+
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
+}
+
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
+}
+
+export interface OfferEdge {
+  node: Offer;
+  cursor: String;
+}
+
+export interface OfferEdgePromise extends Promise<OfferEdge>, Fragmentable {
+  node: <T = OfferPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface OfferEdgeSubscription
+  extends Promise<AsyncIterator<OfferEdge>>,
+    Fragmentable {
+  node: <T = OfferSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface User {
@@ -590,176 +1156,18 @@ export interface UserNullablePromise
   isAdmin: () => Promise<Boolean>;
 }
 
-export interface CancelReasonSubscriptionPayload {
-  mutation: MutationType;
-  node: CancelReason;
-  updatedFields: String[];
-  previousValues: CancelReasonPreviousValues;
-}
-
-export interface CancelReasonSubscriptionPayloadPromise
-  extends Promise<CancelReasonSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = CancelReasonPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = CancelReasonPreviousValuesPromise>() => T;
-}
-
-export interface CancelReasonSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<CancelReasonSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = CancelReasonSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = CancelReasonPreviousValuesSubscription>() => T;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface AggregateCancelReason {
-  count: Int;
-}
-
-export interface AggregateCancelReasonPromise
-  extends Promise<AggregateCancelReason>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateCancelReasonSubscription
-  extends Promise<AsyncIterator<AggregateCancelReason>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface CancelReasonPreviousValues {
-  id: ID_Output;
-  value: String;
-  label: String;
-}
-
-export interface CancelReasonPreviousValuesPromise
-  extends Promise<CancelReasonPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  value: () => Promise<String>;
-  label: () => Promise<String>;
-}
-
-export interface CancelReasonPreviousValuesSubscription
-  extends Promise<AsyncIterator<CancelReasonPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  value: () => Promise<AsyncIterator<String>>;
-  label: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CancelReason {
-  id: ID_Output;
-  value: String;
-  label: String;
-}
-
-export interface CancelReasonPromise
-  extends Promise<CancelReason>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  value: () => Promise<String>;
-  label: () => Promise<String>;
-}
-
-export interface CancelReasonSubscription
-  extends Promise<AsyncIterator<CancelReason>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  value: () => Promise<AsyncIterator<String>>;
-  label: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CancelReasonNullablePromise
-  extends Promise<CancelReason | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  value: () => Promise<String>;
-  label: () => Promise<String>;
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
-}
-
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
-}
-
-export interface CancelReasonEdge {
-  node: CancelReason;
-  cursor: String;
-}
-
-export interface CancelReasonEdgePromise
-  extends Promise<CancelReasonEdge>,
-    Fragmentable {
-  node: <T = CancelReasonPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface CancelReasonEdgeSubscription
-  extends Promise<AsyncIterator<CancelReasonEdge>>,
-    Fragmentable {
-  node: <T = CancelReasonSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-*/
-export type Int = number;
-
 /*
 The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
-
-export type Long = string;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
 export type ID_Input = string | number;
 export type ID_Output = string;
+
+export type Long = string;
 
 /*
 DateTime scalar input type, allowing Date
@@ -770,6 +1178,11 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
@@ -787,6 +1200,10 @@ export const models: Model[] = [
   },
   {
     name: "CancelReason",
+    embedded: false
+  },
+  {
+    name: "Offer",
     embedded: false
   }
 ];

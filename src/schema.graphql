@@ -18,6 +18,17 @@ type Query {
 type Mutation {
   post(url: String!, description: String!): User!
   postCancelReason(value: String!, label: String!): CancelReason
+  postOffer(
+    max_promo_discount_value: Int
+    min_order: Int
+    promo_description: String
+    promo_discount_type: String
+    promo_discount_value: Int
+    promo_name: String
+    promo_start: String
+    promo_usage_limit: Int
+    promo_validity: String
+  ): Offer
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
 }
@@ -51,6 +62,7 @@ type CancelReason {
 }
 
 type Offer {
+  id: ID!
   max_promo_discount_value: Int
   min_order: Int
   promo_description: String

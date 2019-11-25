@@ -7,6 +7,10 @@ module.exports = {
   count: Int!
 }
 
+type AggregateOffer {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -144,6 +148,12 @@ type Mutation {
   upsertCancelReason(where: CancelReasonWhereUniqueInput!, create: CancelReasonCreateInput!, update: CancelReasonUpdateInput!): CancelReason!
   deleteCancelReason(where: CancelReasonWhereUniqueInput!): CancelReason
   deleteManyCancelReasons(where: CancelReasonWhereInput): BatchPayload!
+  createOffer(data: OfferCreateInput!): Offer!
+  updateOffer(data: OfferUpdateInput!, where: OfferWhereUniqueInput!): Offer
+  updateManyOffers(data: OfferUpdateManyMutationInput!, where: OfferWhereInput): BatchPayload!
+  upsertOffer(where: OfferWhereUniqueInput!, create: OfferCreateInput!, update: OfferUpdateInput!): Offer!
+  deleteOffer(where: OfferWhereUniqueInput!): Offer
+  deleteManyOffers(where: OfferWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -162,6 +172,247 @@ interface Node {
   id: ID!
 }
 
+type Offer {
+  id: ID!
+  max_promo_discount_value: Int
+  min_order: Int
+  promo_description: String
+  promo_discount_type: String
+  promo_discount_value: Int
+  promo_name: String
+  promo_start: String
+  promo_usage_limit: Int
+  promo_validity: String
+}
+
+type OfferConnection {
+  pageInfo: PageInfo!
+  edges: [OfferEdge]!
+  aggregate: AggregateOffer!
+}
+
+input OfferCreateInput {
+  id: ID
+  max_promo_discount_value: Int
+  min_order: Int
+  promo_description: String
+  promo_discount_type: String
+  promo_discount_value: Int
+  promo_name: String
+  promo_start: String
+  promo_usage_limit: Int
+  promo_validity: String
+}
+
+type OfferEdge {
+  node: Offer!
+  cursor: String!
+}
+
+enum OfferOrderByInput {
+  id_ASC
+  id_DESC
+  max_promo_discount_value_ASC
+  max_promo_discount_value_DESC
+  min_order_ASC
+  min_order_DESC
+  promo_description_ASC
+  promo_description_DESC
+  promo_discount_type_ASC
+  promo_discount_type_DESC
+  promo_discount_value_ASC
+  promo_discount_value_DESC
+  promo_name_ASC
+  promo_name_DESC
+  promo_start_ASC
+  promo_start_DESC
+  promo_usage_limit_ASC
+  promo_usage_limit_DESC
+  promo_validity_ASC
+  promo_validity_DESC
+}
+
+type OfferPreviousValues {
+  id: ID!
+  max_promo_discount_value: Int
+  min_order: Int
+  promo_description: String
+  promo_discount_type: String
+  promo_discount_value: Int
+  promo_name: String
+  promo_start: String
+  promo_usage_limit: Int
+  promo_validity: String
+}
+
+type OfferSubscriptionPayload {
+  mutation: MutationType!
+  node: Offer
+  updatedFields: [String!]
+  previousValues: OfferPreviousValues
+}
+
+input OfferSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: OfferWhereInput
+  AND: [OfferSubscriptionWhereInput!]
+  OR: [OfferSubscriptionWhereInput!]
+  NOT: [OfferSubscriptionWhereInput!]
+}
+
+input OfferUpdateInput {
+  max_promo_discount_value: Int
+  min_order: Int
+  promo_description: String
+  promo_discount_type: String
+  promo_discount_value: Int
+  promo_name: String
+  promo_start: String
+  promo_usage_limit: Int
+  promo_validity: String
+}
+
+input OfferUpdateManyMutationInput {
+  max_promo_discount_value: Int
+  min_order: Int
+  promo_description: String
+  promo_discount_type: String
+  promo_discount_value: Int
+  promo_name: String
+  promo_start: String
+  promo_usage_limit: Int
+  promo_validity: String
+}
+
+input OfferWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  max_promo_discount_value: Int
+  max_promo_discount_value_not: Int
+  max_promo_discount_value_in: [Int!]
+  max_promo_discount_value_not_in: [Int!]
+  max_promo_discount_value_lt: Int
+  max_promo_discount_value_lte: Int
+  max_promo_discount_value_gt: Int
+  max_promo_discount_value_gte: Int
+  min_order: Int
+  min_order_not: Int
+  min_order_in: [Int!]
+  min_order_not_in: [Int!]
+  min_order_lt: Int
+  min_order_lte: Int
+  min_order_gt: Int
+  min_order_gte: Int
+  promo_description: String
+  promo_description_not: String
+  promo_description_in: [String!]
+  promo_description_not_in: [String!]
+  promo_description_lt: String
+  promo_description_lte: String
+  promo_description_gt: String
+  promo_description_gte: String
+  promo_description_contains: String
+  promo_description_not_contains: String
+  promo_description_starts_with: String
+  promo_description_not_starts_with: String
+  promo_description_ends_with: String
+  promo_description_not_ends_with: String
+  promo_discount_type: String
+  promo_discount_type_not: String
+  promo_discount_type_in: [String!]
+  promo_discount_type_not_in: [String!]
+  promo_discount_type_lt: String
+  promo_discount_type_lte: String
+  promo_discount_type_gt: String
+  promo_discount_type_gte: String
+  promo_discount_type_contains: String
+  promo_discount_type_not_contains: String
+  promo_discount_type_starts_with: String
+  promo_discount_type_not_starts_with: String
+  promo_discount_type_ends_with: String
+  promo_discount_type_not_ends_with: String
+  promo_discount_value: Int
+  promo_discount_value_not: Int
+  promo_discount_value_in: [Int!]
+  promo_discount_value_not_in: [Int!]
+  promo_discount_value_lt: Int
+  promo_discount_value_lte: Int
+  promo_discount_value_gt: Int
+  promo_discount_value_gte: Int
+  promo_name: String
+  promo_name_not: String
+  promo_name_in: [String!]
+  promo_name_not_in: [String!]
+  promo_name_lt: String
+  promo_name_lte: String
+  promo_name_gt: String
+  promo_name_gte: String
+  promo_name_contains: String
+  promo_name_not_contains: String
+  promo_name_starts_with: String
+  promo_name_not_starts_with: String
+  promo_name_ends_with: String
+  promo_name_not_ends_with: String
+  promo_start: String
+  promo_start_not: String
+  promo_start_in: [String!]
+  promo_start_not_in: [String!]
+  promo_start_lt: String
+  promo_start_lte: String
+  promo_start_gt: String
+  promo_start_gte: String
+  promo_start_contains: String
+  promo_start_not_contains: String
+  promo_start_starts_with: String
+  promo_start_not_starts_with: String
+  promo_start_ends_with: String
+  promo_start_not_ends_with: String
+  promo_usage_limit: Int
+  promo_usage_limit_not: Int
+  promo_usage_limit_in: [Int!]
+  promo_usage_limit_not_in: [Int!]
+  promo_usage_limit_lt: Int
+  promo_usage_limit_lte: Int
+  promo_usage_limit_gt: Int
+  promo_usage_limit_gte: Int
+  promo_validity: String
+  promo_validity_not: String
+  promo_validity_in: [String!]
+  promo_validity_not_in: [String!]
+  promo_validity_lt: String
+  promo_validity_lte: String
+  promo_validity_gt: String
+  promo_validity_gte: String
+  promo_validity_contains: String
+  promo_validity_not_contains: String
+  promo_validity_starts_with: String
+  promo_validity_not_starts_with: String
+  promo_validity_ends_with: String
+  promo_validity_not_ends_with: String
+  AND: [OfferWhereInput!]
+  OR: [OfferWhereInput!]
+  NOT: [OfferWhereInput!]
+}
+
+input OfferWhereUniqueInput {
+  id: ID
+}
+
 type PageInfo {
   hasNextPage: Boolean!
   hasPreviousPage: Boolean!
@@ -173,6 +424,9 @@ type Query {
   cancelReason(where: CancelReasonWhereUniqueInput!): CancelReason
   cancelReasons(where: CancelReasonWhereInput, orderBy: CancelReasonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CancelReason]!
   cancelReasonsConnection(where: CancelReasonWhereInput, orderBy: CancelReasonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CancelReasonConnection!
+  offer(where: OfferWhereUniqueInput!): Offer
+  offers(where: OfferWhereInput, orderBy: OfferOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Offer]!
+  offersConnection(where: OfferWhereInput, orderBy: OfferOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OfferConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -181,6 +435,7 @@ type Query {
 
 type Subscription {
   cancelReason(where: CancelReasonSubscriptionWhereInput): CancelReasonSubscriptionPayload
+  offer(where: OfferSubscriptionWhereInput): OfferSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 

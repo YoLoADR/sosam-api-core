@@ -14,3 +14,16 @@ type CancelReason {
   value: String!
   label: String!
 }
+
+type Offer {
+  id: ID! @id
+  max_promo_discount_value: Int
+  min_order: Int
+  promo_description: String
+  promo_discount_type: String
+  promo_discount_value: Int
+  promo_name: String
+  promo_start: String
+  promo_usage_limit: Int
+  promo_validity: String
+}

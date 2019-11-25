@@ -16,7 +16,7 @@ type Query {
 # login: Connecter un utilisateur existant
 # vote: Permet aux utilisateurs authentifiés de voter pour un lien existant
 type Mutation {
-  post(url: String!, description: String!): User!
+  postUser(url: String!, description: String!): User!
   postCancelReason(value: String!, label: String!): CancelReason
   postOffer(
     max_promo_discount_value: Int
@@ -29,6 +29,15 @@ type Mutation {
     promo_usage_limit: Int
     promo_validity: String
   ): Offer
+  postCarType(
+    convenience_fees: Int
+    image: String
+    name: String
+    rate_per_hour: Int
+    rate_per_kilometer: String
+  ): CarType
+
+  postBonus(amount: String, key: String): Bonus
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
 }
@@ -75,6 +84,7 @@ type Offer {
 }
 
 type CarType {
+  id: ID!
   convenience_fees: Int
   image: String
   name: String
@@ -84,8 +94,8 @@ type CarType {
 }
 
 type Bonus {
+  id: ID!
   amount: String
-  id: String
   key: String
   updatedAt: DateTime
 }

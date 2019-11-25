@@ -42,7 +42,7 @@ async function login(parent, args, context, info) {
   };
 }
 
-function post(parent, args, context, info) {
+function postUser(parent, args, context, info) {
   const userId = getUserId(context);
   return context.prisma.createUser({
     url: args.url,
@@ -73,10 +73,34 @@ function postOffer(parent, args, context, info) {
   });
 }
 
+function postCarType(parent, args, context, info) {
+  const userId = getUserId(context);
+  return context.prisma.createCarType({
+    convenience_fees: args.convenience_fees,
+    image: args.image,
+    name: args.name,
+    rate_per_hour: args.rate_per_hour,
+    rate_per_kilometer: args.rate_per_kilometer,
+    updatedAt: args.updatedAt
+  });
+}
+
+function postBonus(parent, args, context, info) {
+  const userId = getUserId(context);
+  return context.prisma.createBonus({
+    id: args.id,
+    amount: args.amount,
+    key: args.key,
+    updatedAt: args.updatedAt
+  });
+}
+
 module.exports = {
   signup,
   login,
-  post,
+  postUser,
   postCancelReason,
-  postOffer
+  postOffer,
+  postCarType,
+  postBonus
 };

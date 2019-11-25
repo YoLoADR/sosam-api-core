@@ -3,7 +3,15 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateCancelReason {
+/* GraphQL */ `type AggregateBonus {
+  count: Int!
+}
+
+type AggregateCancelReason {
+  count: Int!
+}
+
+type AggregateCarType {
   count: Int!
 }
 
@@ -17,6 +25,136 @@ type AggregateUser {
 
 type BatchPayload {
   count: Long!
+}
+
+type Bonus {
+  id: ID!
+  amount: String
+  key: String
+  updatedAt: DateTime!
+}
+
+type BonusConnection {
+  pageInfo: PageInfo!
+  edges: [BonusEdge]!
+  aggregate: AggregateBonus!
+}
+
+input BonusCreateInput {
+  id: ID
+  amount: String
+  key: String
+}
+
+type BonusEdge {
+  node: Bonus!
+  cursor: String!
+}
+
+enum BonusOrderByInput {
+  id_ASC
+  id_DESC
+  amount_ASC
+  amount_DESC
+  key_ASC
+  key_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type BonusPreviousValues {
+  id: ID!
+  amount: String
+  key: String
+  updatedAt: DateTime!
+}
+
+type BonusSubscriptionPayload {
+  mutation: MutationType!
+  node: Bonus
+  updatedFields: [String!]
+  previousValues: BonusPreviousValues
+}
+
+input BonusSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: BonusWhereInput
+  AND: [BonusSubscriptionWhereInput!]
+  OR: [BonusSubscriptionWhereInput!]
+  NOT: [BonusSubscriptionWhereInput!]
+}
+
+input BonusUpdateInput {
+  amount: String
+  key: String
+}
+
+input BonusUpdateManyMutationInput {
+  amount: String
+  key: String
+}
+
+input BonusWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  amount: String
+  amount_not: String
+  amount_in: [String!]
+  amount_not_in: [String!]
+  amount_lt: String
+  amount_lte: String
+  amount_gt: String
+  amount_gte: String
+  amount_contains: String
+  amount_not_contains: String
+  amount_starts_with: String
+  amount_not_starts_with: String
+  amount_ends_with: String
+  amount_not_ends_with: String
+  key: String
+  key_not: String
+  key_in: [String!]
+  key_not_in: [String!]
+  key_lt: String
+  key_lte: String
+  key_gt: String
+  key_gte: String
+  key_contains: String
+  key_not_contains: String
+  key_starts_with: String
+  key_not_starts_with: String
+  key_ends_with: String
+  key_not_ends_with: String
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [BonusWhereInput!]
+  OR: [BonusWhereInput!]
+  NOT: [BonusWhereInput!]
+}
+
+input BonusWhereUniqueInput {
+  id: ID
 }
 
 type CancelReason {
@@ -137,17 +275,210 @@ input CancelReasonWhereUniqueInput {
   id: ID
 }
 
+type CarType {
+  id: ID!
+  convenience_fees: Int
+  image: String
+  name: String
+  rate_per_hour: Int
+  rate_per_kilometer: String
+  updatedAt: DateTime!
+}
+
+type CarTypeConnection {
+  pageInfo: PageInfo!
+  edges: [CarTypeEdge]!
+  aggregate: AggregateCarType!
+}
+
+input CarTypeCreateInput {
+  id: ID
+  convenience_fees: Int
+  image: String
+  name: String
+  rate_per_hour: Int
+  rate_per_kilometer: String
+}
+
+type CarTypeEdge {
+  node: CarType!
+  cursor: String!
+}
+
+enum CarTypeOrderByInput {
+  id_ASC
+  id_DESC
+  convenience_fees_ASC
+  convenience_fees_DESC
+  image_ASC
+  image_DESC
+  name_ASC
+  name_DESC
+  rate_per_hour_ASC
+  rate_per_hour_DESC
+  rate_per_kilometer_ASC
+  rate_per_kilometer_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type CarTypePreviousValues {
+  id: ID!
+  convenience_fees: Int
+  image: String
+  name: String
+  rate_per_hour: Int
+  rate_per_kilometer: String
+  updatedAt: DateTime!
+}
+
+type CarTypeSubscriptionPayload {
+  mutation: MutationType!
+  node: CarType
+  updatedFields: [String!]
+  previousValues: CarTypePreviousValues
+}
+
+input CarTypeSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CarTypeWhereInput
+  AND: [CarTypeSubscriptionWhereInput!]
+  OR: [CarTypeSubscriptionWhereInput!]
+  NOT: [CarTypeSubscriptionWhereInput!]
+}
+
+input CarTypeUpdateInput {
+  convenience_fees: Int
+  image: String
+  name: String
+  rate_per_hour: Int
+  rate_per_kilometer: String
+}
+
+input CarTypeUpdateManyMutationInput {
+  convenience_fees: Int
+  image: String
+  name: String
+  rate_per_hour: Int
+  rate_per_kilometer: String
+}
+
+input CarTypeWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  convenience_fees: Int
+  convenience_fees_not: Int
+  convenience_fees_in: [Int!]
+  convenience_fees_not_in: [Int!]
+  convenience_fees_lt: Int
+  convenience_fees_lte: Int
+  convenience_fees_gt: Int
+  convenience_fees_gte: Int
+  image: String
+  image_not: String
+  image_in: [String!]
+  image_not_in: [String!]
+  image_lt: String
+  image_lte: String
+  image_gt: String
+  image_gte: String
+  image_contains: String
+  image_not_contains: String
+  image_starts_with: String
+  image_not_starts_with: String
+  image_ends_with: String
+  image_not_ends_with: String
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  rate_per_hour: Int
+  rate_per_hour_not: Int
+  rate_per_hour_in: [Int!]
+  rate_per_hour_not_in: [Int!]
+  rate_per_hour_lt: Int
+  rate_per_hour_lte: Int
+  rate_per_hour_gt: Int
+  rate_per_hour_gte: Int
+  rate_per_kilometer: String
+  rate_per_kilometer_not: String
+  rate_per_kilometer_in: [String!]
+  rate_per_kilometer_not_in: [String!]
+  rate_per_kilometer_lt: String
+  rate_per_kilometer_lte: String
+  rate_per_kilometer_gt: String
+  rate_per_kilometer_gte: String
+  rate_per_kilometer_contains: String
+  rate_per_kilometer_not_contains: String
+  rate_per_kilometer_starts_with: String
+  rate_per_kilometer_not_starts_with: String
+  rate_per_kilometer_ends_with: String
+  rate_per_kilometer_not_ends_with: String
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [CarTypeWhereInput!]
+  OR: [CarTypeWhereInput!]
+  NOT: [CarTypeWhereInput!]
+}
+
+input CarTypeWhereUniqueInput {
+  id: ID
+}
+
 scalar DateTime
 
 scalar Long
 
 type Mutation {
+  createBonus(data: BonusCreateInput!): Bonus!
+  updateBonus(data: BonusUpdateInput!, where: BonusWhereUniqueInput!): Bonus
+  updateManyBonuses(data: BonusUpdateManyMutationInput!, where: BonusWhereInput): BatchPayload!
+  upsertBonus(where: BonusWhereUniqueInput!, create: BonusCreateInput!, update: BonusUpdateInput!): Bonus!
+  deleteBonus(where: BonusWhereUniqueInput!): Bonus
+  deleteManyBonuses(where: BonusWhereInput): BatchPayload!
   createCancelReason(data: CancelReasonCreateInput!): CancelReason!
   updateCancelReason(data: CancelReasonUpdateInput!, where: CancelReasonWhereUniqueInput!): CancelReason
   updateManyCancelReasons(data: CancelReasonUpdateManyMutationInput!, where: CancelReasonWhereInput): BatchPayload!
   upsertCancelReason(where: CancelReasonWhereUniqueInput!, create: CancelReasonCreateInput!, update: CancelReasonUpdateInput!): CancelReason!
   deleteCancelReason(where: CancelReasonWhereUniqueInput!): CancelReason
   deleteManyCancelReasons(where: CancelReasonWhereInput): BatchPayload!
+  createCarType(data: CarTypeCreateInput!): CarType!
+  updateCarType(data: CarTypeUpdateInput!, where: CarTypeWhereUniqueInput!): CarType
+  updateManyCarTypes(data: CarTypeUpdateManyMutationInput!, where: CarTypeWhereInput): BatchPayload!
+  upsertCarType(where: CarTypeWhereUniqueInput!, create: CarTypeCreateInput!, update: CarTypeUpdateInput!): CarType!
+  deleteCarType(where: CarTypeWhereUniqueInput!): CarType
+  deleteManyCarTypes(where: CarTypeWhereInput): BatchPayload!
   createOffer(data: OfferCreateInput!): Offer!
   updateOffer(data: OfferUpdateInput!, where: OfferWhereUniqueInput!): Offer
   updateManyOffers(data: OfferUpdateManyMutationInput!, where: OfferWhereInput): BatchPayload!
@@ -421,9 +752,15 @@ type PageInfo {
 }
 
 type Query {
+  bonus(where: BonusWhereUniqueInput!): Bonus
+  bonuses(where: BonusWhereInput, orderBy: BonusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bonus]!
+  bonusesConnection(where: BonusWhereInput, orderBy: BonusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BonusConnection!
   cancelReason(where: CancelReasonWhereUniqueInput!): CancelReason
   cancelReasons(where: CancelReasonWhereInput, orderBy: CancelReasonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CancelReason]!
   cancelReasonsConnection(where: CancelReasonWhereInput, orderBy: CancelReasonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CancelReasonConnection!
+  carType(where: CarTypeWhereUniqueInput!): CarType
+  carTypes(where: CarTypeWhereInput, orderBy: CarTypeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CarType]!
+  carTypesConnection(where: CarTypeWhereInput, orderBy: CarTypeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CarTypeConnection!
   offer(where: OfferWhereUniqueInput!): Offer
   offers(where: OfferWhereInput, orderBy: OfferOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Offer]!
   offersConnection(where: OfferWhereInput, orderBy: OfferOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OfferConnection!
@@ -434,7 +771,9 @@ type Query {
 }
 
 type Subscription {
+  bonus(where: BonusSubscriptionWhereInput): BonusSubscriptionPayload
   cancelReason(where: CancelReasonSubscriptionWhereInput): CancelReasonSubscriptionPayload
+  carType(where: CarTypeSubscriptionWhereInput): CarTypeSubscriptionPayload
   offer(where: OfferSubscriptionWhereInput): OfferSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }

@@ -27,3 +27,13 @@ type Offer {
   promo_usage_limit: Int
   promo_validity: String
 }
+
+type CarType {
+  id: ID! @id
+  convenience_fees: Int
+  image: String
+  name: String
+  rate_per_hour: Int
+  rate_per_kilometer: String
+  updatedAt: DateTime! @updatedAt
+}

@@ -15,6 +15,14 @@ var models = [
   {
     name: "Offer",
     embedded: false
+  },
+  {
+    name: "CarType",
+    embedded: false
+  },
+  {
+    name: "Bonus",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({

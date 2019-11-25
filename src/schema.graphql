@@ -7,8 +7,13 @@ scalar DateTime
 
 type Query {
   info: String!
-  feed(filter: String, skip: Int, first: Int, orderBy: UserOrderByInput): Feed!
-  #feed: Feed!
+  getUsers(
+    filter: String
+    skip: Int
+    first: Int
+    orderBy: UserOrderByInput
+  ): Feed!
+  getCancelReason: [CancelReason]
 }
 
 # post: Permet aux utilisateurs authentifiés de créer un nouveau lien
@@ -50,6 +55,11 @@ type AuthPayload {
 # Récupère tous les liens du backend, notez que cette requête autorise également les arguments de filtrage, de tri et de pagination
 type Feed {
   users: [User!]!
+  count: Int!
+}
+
+type CancelReasons {
+  cancelReasons: [CancelReasons!]!
   count: Int!
 }
 

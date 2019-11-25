@@ -7,8 +7,8 @@ scalar DateTime
 
 type Query {
   info: String!
-  # feed(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): Feed!
-  feed: Feed!
+  feed(filter: String, skip: Int, first: Int, orderBy: UserOrderByInput): Feed!
+  #feed: Feed!
 }
 
 # post: Permet aux utilisateurs authentifiés de créer un nouveau lien

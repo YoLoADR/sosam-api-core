@@ -1,4 +1,4 @@
-async function feed(parent, args, context, info) {
+async function getUsers(parent, args, context, info) {
   // Si "argument de filtre" on construit un ~ WHERE en SQL
   const where = args.filter
     ? {
@@ -26,8 +26,28 @@ async function feed(parent, args, context, info) {
   };
 }
 
+function getCancelReason(parent, args, context) {
+  return context.prisma.cancelReasons();
+}
+
+function getOffers(parent, args, context) {
+  return context.prisma.offers();
+}
+
+function getCarType(parent, args, context) {
+  return context.prisma.carTypes();
+}
+
+function getReward(parent, args, context) {
+  return context.prisma.rewards();
+}
+
 module.exports = {
-  feed
+  getUsers,
+  getCancelReason,
+  getOffers,
+  getCarType,
+  getReward
 };
 
 // Vous utilisez d’abord les arguments de filtrage, d’ordre et de pagination fournis pour extraire un certain nombre d’ Linkéléments.

@@ -3,6 +3,11 @@ const { GraphQLServer } = require("graphql-yoga");
 const { prisma } = require("./generated/prisma-client");
 const Query = require("./resolvers/Query");
 const Mutation = require("./resolvers/Mutation");
+const User = require("./resolvers/User");
+const CancelReason = require("./resolvers/CancelReason");
+const Offer = require("./resolvers/Offer");
+const CarType = require("./resolvers/CarType");
+const Reward = require("./resolvers/Reward");
 //const User = require("./resolvers/User");
 
 // Chaque champ de la définition de schéma est soutenu par une fonction de résolution ayant la responsabilité de renvoyer les données pour ce champ
@@ -11,6 +16,11 @@ const Mutation = require("./resolvers/Mutation");
 const resolvers = {
   Query,
   Mutation,
+  User,
+  CancelReason,
+  Offer,
+  CarType,
+  Reward
 };
 
 //Cela indique au serveur quelles opérations d'API sont acceptées et comment elles doivent être résolues.

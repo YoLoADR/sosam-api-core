@@ -21,7 +21,7 @@ var models = [
     embedded: false
   },
   {
-    name: "Bonus",
+    name: "Reward",
     embedded: false
   }
 ];

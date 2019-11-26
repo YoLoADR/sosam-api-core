@@ -14,6 +14,9 @@ type Query {
     orderBy: UserOrderByInput
   ): Feed!
   getCancelReason: [CancelReason]
+  getOffers: [Offer]
+  getCarType: [CarType]
+  getReward: [Reward]
 }
 
 # post: Permet aux utilisateurs authentifiés de créer un nouveau lien
@@ -42,7 +45,7 @@ type Mutation {
     rate_per_kilometer: String
   ): CarType
 
-  postBonus(amount: String, key: String): Bonus
+  postReward(amount: String, key: String): Reward
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
 }
@@ -103,7 +106,7 @@ type CarType {
   updatedAt: DateTime
 }
 
-type Bonus {
+type Reward {
   id: ID!
   amount: String
   key: String

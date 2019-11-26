@@ -3,11 +3,7 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateBonus {
-  count: Int!
-}
-
-type AggregateCancelReason {
+/* GraphQL */ `type AggregateCancelReason {
   count: Int!
 }
 
@@ -19,142 +15,16 @@ type AggregateOffer {
   count: Int!
 }
 
+type AggregateReward {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
 
 type BatchPayload {
   count: Long!
-}
-
-type Bonus {
-  id: ID!
-  amount: String
-  key: String
-  updatedAt: DateTime!
-}
-
-type BonusConnection {
-  pageInfo: PageInfo!
-  edges: [BonusEdge]!
-  aggregate: AggregateBonus!
-}
-
-input BonusCreateInput {
-  id: ID
-  amount: String
-  key: String
-}
-
-type BonusEdge {
-  node: Bonus!
-  cursor: String!
-}
-
-enum BonusOrderByInput {
-  id_ASC
-  id_DESC
-  amount_ASC
-  amount_DESC
-  key_ASC
-  key_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type BonusPreviousValues {
-  id: ID!
-  amount: String
-  key: String
-  updatedAt: DateTime!
-}
-
-type BonusSubscriptionPayload {
-  mutation: MutationType!
-  node: Bonus
-  updatedFields: [String!]
-  previousValues: BonusPreviousValues
-}
-
-input BonusSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: BonusWhereInput
-  AND: [BonusSubscriptionWhereInput!]
-  OR: [BonusSubscriptionWhereInput!]
-  NOT: [BonusSubscriptionWhereInput!]
-}
-
-input BonusUpdateInput {
-  amount: String
-  key: String
-}
-
-input BonusUpdateManyMutationInput {
-  amount: String
-  key: String
-}
-
-input BonusWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  amount: String
-  amount_not: String
-  amount_in: [String!]
-  amount_not_in: [String!]
-  amount_lt: String
-  amount_lte: String
-  amount_gt: String
-  amount_gte: String
-  amount_contains: String
-  amount_not_contains: String
-  amount_starts_with: String
-  amount_not_starts_with: String
-  amount_ends_with: String
-  amount_not_ends_with: String
-  key: String
-  key_not: String
-  key_in: [String!]
-  key_not_in: [String!]
-  key_lt: String
-  key_lte: String
-  key_gt: String
-  key_gte: String
-  key_contains: String
-  key_not_contains: String
-  key_starts_with: String
-  key_not_starts_with: String
-  key_ends_with: String
-  key_not_ends_with: String
-  updatedAt: DateTime
-  updatedAt_not: DateTime
-  updatedAt_in: [DateTime!]
-  updatedAt_not_in: [DateTime!]
-  updatedAt_lt: DateTime
-  updatedAt_lte: DateTime
-  updatedAt_gt: DateTime
-  updatedAt_gte: DateTime
-  AND: [BonusWhereInput!]
-  OR: [BonusWhereInput!]
-  NOT: [BonusWhereInput!]
-}
-
-input BonusWhereUniqueInput {
-  id: ID
 }
 
 type CancelReason {
@@ -461,12 +331,6 @@ scalar DateTime
 scalar Long
 
 type Mutation {
-  createBonus(data: BonusCreateInput!): Bonus!
-  updateBonus(data: BonusUpdateInput!, where: BonusWhereUniqueInput!): Bonus
-  updateManyBonuses(data: BonusUpdateManyMutationInput!, where: BonusWhereInput): BatchPayload!
-  upsertBonus(where: BonusWhereUniqueInput!, create: BonusCreateInput!, update: BonusUpdateInput!): Bonus!
-  deleteBonus(where: BonusWhereUniqueInput!): Bonus
-  deleteManyBonuses(where: BonusWhereInput): BatchPayload!
   createCancelReason(data: CancelReasonCreateInput!): CancelReason!
   updateCancelReason(data: CancelReasonUpdateInput!, where: CancelReasonWhereUniqueInput!): CancelReason
   updateManyCancelReasons(data: CancelReasonUpdateManyMutationInput!, where: CancelReasonWhereInput): BatchPayload!
@@ -485,6 +349,12 @@ type Mutation {
   upsertOffer(where: OfferWhereUniqueInput!, create: OfferCreateInput!, update: OfferUpdateInput!): Offer!
   deleteOffer(where: OfferWhereUniqueInput!): Offer
   deleteManyOffers(where: OfferWhereInput): BatchPayload!
+  createReward(data: RewardCreateInput!): Reward!
+  updateReward(data: RewardUpdateInput!, where: RewardWhereUniqueInput!): Reward
+  updateManyRewards(data: RewardUpdateManyMutationInput!, where: RewardWhereInput): BatchPayload!
+  upsertReward(where: RewardWhereUniqueInput!, create: RewardCreateInput!, update: RewardUpdateInput!): Reward!
+  deleteReward(where: RewardWhereUniqueInput!): Reward
+  deleteManyRewards(where: RewardWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -752,9 +622,6 @@ type PageInfo {
 }
 
 type Query {
-  bonus(where: BonusWhereUniqueInput!): Bonus
-  bonuses(where: BonusWhereInput, orderBy: BonusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bonus]!
-  bonusesConnection(where: BonusWhereInput, orderBy: BonusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BonusConnection!
   cancelReason(where: CancelReasonWhereUniqueInput!): CancelReason
   cancelReasons(where: CancelReasonWhereInput, orderBy: CancelReasonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CancelReason]!
   cancelReasonsConnection(where: CancelReasonWhereInput, orderBy: CancelReasonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CancelReasonConnection!
@@ -764,17 +631,150 @@ type Query {
   offer(where: OfferWhereUniqueInput!): Offer
   offers(where: OfferWhereInput, orderBy: OfferOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Offer]!
   offersConnection(where: OfferWhereInput, orderBy: OfferOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OfferConnection!
+  reward(where: RewardWhereUniqueInput!): Reward
+  rewards(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reward]!
+  rewardsConnection(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RewardConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   node(id: ID!): Node
 }
 
+type Reward {
+  id: ID!
+  amount: String
+  key: String
+  updatedAt: DateTime!
+}
+
+type RewardConnection {
+  pageInfo: PageInfo!
+  edges: [RewardEdge]!
+  aggregate: AggregateReward!
+}
+
+input RewardCreateInput {
+  id: ID
+  amount: String
+  key: String
+}
+
+type RewardEdge {
+  node: Reward!
+  cursor: String!
+}
+
+enum RewardOrderByInput {
+  id_ASC
+  id_DESC
+  amount_ASC
+  amount_DESC
+  key_ASC
+  key_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type RewardPreviousValues {
+  id: ID!
+  amount: String
+  key: String
+  updatedAt: DateTime!
+}
+
+type RewardSubscriptionPayload {
+  mutation: MutationType!
+  node: Reward
+  updatedFields: [String!]
+  previousValues: RewardPreviousValues
+}
+
+input RewardSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: RewardWhereInput
+  AND: [RewardSubscriptionWhereInput!]
+  OR: [RewardSubscriptionWhereInput!]
+  NOT: [RewardSubscriptionWhereInput!]
+}
+
+input RewardUpdateInput {
+  amount: String
+  key: String
+}
+
+input RewardUpdateManyMutationInput {
+  amount: String
+  key: String
+}
+
+input RewardWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  amount: String
+  amount_not: String
+  amount_in: [String!]
+  amount_not_in: [String!]
+  amount_lt: String
+  amount_lte: String
+  amount_gt: String
+  amount_gte: String
+  amount_contains: String
+  amount_not_contains: String
+  amount_starts_with: String
+  amount_not_starts_with: String
+  amount_ends_with: String
+  amount_not_ends_with: String
+  key: String
+  key_not: String
+  key_in: [String!]
+  key_not_in: [String!]
+  key_lt: String
+  key_lte: String
+  key_gt: String
+  key_gte: String
+  key_contains: String
+  key_not_contains: String
+  key_starts_with: String
+  key_not_starts_with: String
+  key_ends_with: String
+  key_not_ends_with: String
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [RewardWhereInput!]
+  OR: [RewardWhereInput!]
+  NOT: [RewardWhereInput!]
+}
+
+input RewardWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
-  bonus(where: BonusSubscriptionWhereInput): BonusSubscriptionPayload
   cancelReason(where: CancelReasonSubscriptionWhereInput): CancelReasonSubscriptionPayload
   carType(where: CarTypeSubscriptionWhereInput): CarTypeSubscriptionPayload
   offer(where: OfferSubscriptionWhereInput): OfferSubscriptionPayload
+  reward(where: RewardSubscriptionWhereInput): RewardSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 

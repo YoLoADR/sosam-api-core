@@ -85,9 +85,9 @@ function postCarType(parent, args, context, info) {
   });
 }
 
-function postBonus(parent, args, context, info) {
+function postReward(parent, args, context, info) {
   const userId = getUserId(context);
-  return context.prisma.createBonus({
+  return context.prisma.createReward({
     id: args.id,
     amount: args.amount,
     key: args.key,
@@ -102,5 +102,5 @@ module.exports = {
   postCancelReason,
   postOffer,
   postCarType,
-  postBonus
+  postReward
 };

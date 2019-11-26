@@ -30,9 +30,24 @@ function getCancelReason(parent, args, context) {
   return context.prisma.cancelReasons();
 }
 
+function getOffers(parent, args, context) {
+  return context.prisma.offers();
+}
+
+function getCarType(parent, args, context) {
+  return context.prisma.carTypes();
+}
+
+function getReward(parent, args, context) {
+  return context.prisma.rewards();
+}
+
 module.exports = {
   getUsers,
-  getCancelReason
+  getCancelReason,
+  getOffers,
+  getCarType,
+  getReward
 };
 
 // Vous utilisez d’abord les arguments de filtrage, d’ordre et de pagination fournis pour extraire un certain nombre d’ Linkéléments.

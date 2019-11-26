@@ -38,7 +38,7 @@ type CarType {
   updatedAt: DateTime! @updatedAt
 }
 
-type Bonus {
+type Reward {
   id: ID! @id
   amount: String
   key: String

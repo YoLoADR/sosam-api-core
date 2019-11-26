@@ -95,6 +95,84 @@ function postReward(parent, args, context, info) {
   });
 }
 
+async function updateUser(parent, args, context, info) {
+  // First check if there is a user with that email
+  const user = await context.prisma.user({ email: args.email });
+
+  if (!user) {
+    throw new Error("No such user found");
+  }
+  const updatedUser = await context.prisma.updateUser({
+    where: { id: user.id },
+
+    data: {
+      name: args.name,
+      email: args.email,
+      description: args.description,
+      url: args.url,
+      usertype: args.usertype,
+      isAdmin: args.isAdmin
+    }
+  });
+  return updatedUser;
+}
+
+function updateCancelReason(parent, args, context, info) {
+  return context.prisma.updateCancelReason({
+    where: { id: args.id },
+
+    data: {
+      value: args.value,
+      label: args.label
+    }
+  });
+}
+
+function updateOffer(parent, args, context, info) {
+  return context.prisma.updateOffer({
+    where: { id: args.id },
+
+    data: {
+      max_promo_discount_value: args.max_promo_discount_value,
+      min_order: args.min_order,
+      promo_description: args.promo_description,
+      promo_discount_type: args.promo_discount_type,
+      promo_discount_value: args.promo_discount_value,
+      promo_name: args.promo_name,
+      promo_start: args.promo_start,
+      promo_usage_limit: args.promo_usage_limit,
+      promo_validity: args.promo_validity
+    }
+  });
+}
+
+function updateCarType(parent, args, context, info) {
+  return context.prisma.updateCarType({
+    where: { id: args.id },
+
+    data: {
+      convenience_fees: args.convenience_fees,
+      image: args.image,
+      name: args.name,
+      rate_per_hour: args.rate_per_hour,
+      rate_per_kilometer: args.rate_per_kilometer,
+      updatedAt: args.updatedAt
+    }
+  });
+}
+
+function updateReward(parent, args, context, info) {
+  return context.prisma.updateReward({
+    where: { id: args.id },
+
+    data: {
+      amount: args.amount,
+      key: args.key,
+      updatedAt: args.updatedAt
+    }
+  });
+}
+
 module.exports = {
   signup,
   login,
@@ -102,5 +180,10 @@ module.exports = {
   postCancelReason,
   postOffer,
   postCarType,
-  postReward
+  postReward,
+  updateUser,
+  updateCancelReason,
+  updateOffer,
+  updateCarType,
+  updateReward
 };

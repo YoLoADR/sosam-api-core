@@ -46,6 +46,16 @@ type Mutation {
   ): CarType
 
   postReward(amount: String, key: String): Reward
+
+  updateUser(
+    name: String
+    email: String
+    description: String
+    url: String
+    usertype: String
+    isAdmin: Boolean
+  ): User
+
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
 }

@@ -95,6 +95,28 @@ function postReward(parent, args, context, info) {
   });
 }
 
+async function updateUser(parent, args, context, info) {
+  // First check if there is a user with that email
+  const user = await context.prisma.user({ email: args.email });
+
+  if (!user) {
+    throw new Error("No such user found");
+  }
+  const updatedUser = await context.prisma.updateUser({
+    where: { id: user.id },
+
+    data: {
+      name: args.name,
+      email: args.email,
+      description: args.description,
+      url: args.url,
+      usertype: args.usertype,
+      isAdmin: args.isAdmin
+    }
+  });
+  return updatedUser;
+}
+
 module.exports = {
   signup,
   login,
@@ -102,5 +124,6 @@ module.exports = {
   postCancelReason,
   postOffer,
   postCarType,
-  postReward
+  postReward,
+  updateUser
 };

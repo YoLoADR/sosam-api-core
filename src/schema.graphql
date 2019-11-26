@@ -49,12 +49,39 @@ type Mutation {
 
   updateUser(
     name: String
-    email: String
+    email: String!
     description: String
     url: String
     usertype: String
     isAdmin: Boolean
   ): User
+
+  updateCancelReason(id: ID!, value: String, label: String): CancelReason
+
+  updateOffer(
+    id: ID!
+    max_promo_discount_value: Int
+    min_order: Int
+    promo_description: String
+    promo_discount_type: String
+    promo_discount_value: Int
+    promo_name: String
+    promo_start: String
+    promo_usage_limit: Int
+    promo_validity: String
+  ): Offer
+
+  updateCarType(
+    id: ID!
+    convenience_fees: Int
+    image: String
+    name: String
+    rate_per_hour: Int
+    rate_per_kilometer: String
+    updatedAt: DateTime
+  ): CarType
+
+  updateReward(id: ID!, amount: String, key: String): Reward
 
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
@@ -71,11 +98,6 @@ type Feed {
   count: Int!
 }
 
-type CancelReasons {
-  cancelReasons: [CancelReasons!]!
-  count: Int!
-}
-
 type User {
   id: ID!
   name: String!
@@ -85,6 +107,11 @@ type User {
   url: String
   usertype: String
   isAdmin: Boolean
+}
+
+type CancelReasons {
+  cancelReasons: [CancelReasons!]!
+  count: Int!
 }
 
 type CancelReason {

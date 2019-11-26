@@ -83,6 +83,12 @@ type Mutation {
 
   updateReward(id: ID!, amount: String, key: String): Reward
 
+  deleteUser(email: String!): User
+  deleteCancelReason(id: ID!): CancelReason
+  deleteOffer(id: ID!): Offer
+  deleteCarType(id: ID!): CarType
+  deleteReward(id: ID!): Reward
+
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
 }

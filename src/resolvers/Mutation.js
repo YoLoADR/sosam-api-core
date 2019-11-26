@@ -173,6 +173,33 @@ function updateReward(parent, args, context, info) {
   });
 }
 
+async function deleteUser(parent, args, context, info) {
+  // First check if there is a user with that email
+  const user = await context.prisma.user({ email: args.email });
+
+  if (!user) {
+    throw new Error("No such user found");
+  }
+  const deletedUser = await context.prisma.deleteUser({ id: user.id });
+  return deletedUser;
+}
+
+function deleteCancelReason(parent, args, context, info) {
+  return context.prisma.deleteCancelReason({ id: args.id });
+}
+
+function deleteOffer(parent, args, context, info) {
+  return context.prisma.deleteOffer({ id: args.id });
+}
+
+function deleteCarType(parent, args, context, info) {
+  return context.prisma.deleteCarType({ id: args.id });
+}
+
+function deleteReward(parent, args, context, info) {
+  return context.prisma.deleteReward({ id: args.id });
+}
+
 module.exports = {
   signup,
   login,
@@ -185,5 +212,10 @@ module.exports = {
   updateCancelReason,
   updateOffer,
   updateCarType,
-  updateReward
+  updateReward,
+  deleteUser,
+  deleteCancelReason,
+  deleteOffer,
+  deleteCarType,
+  deleteReward
 };

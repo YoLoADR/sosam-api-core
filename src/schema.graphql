@@ -54,6 +54,13 @@ type Mutation {
     url: String
     usertype: String
     isAdmin: Boolean
+    lastName: String
+    firstName: String
+    mobile: String
+    profile_image: String
+    approved: Boolean
+    refferalBonus: String
+    profession: String
   ): User
 
   updateCancelReason(id: ID!, value: String, label: String): CancelReason
@@ -113,6 +120,14 @@ type User {
   url: String
   usertype: String
   isAdmin: Boolean
+  lastName: String
+  firstName: String
+  updatedAt: DateTime!
+  mobile: String
+  profile_image: String
+  approved: Boolean
+  refferalBonus: String
+  profession: String
 }
 
 type CancelReasons {

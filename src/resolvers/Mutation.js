@@ -111,7 +111,14 @@ async function updateUser(parent, args, context, info) {
       description: args.description,
       url: args.url,
       usertype: args.usertype,
-      isAdmin: args.isAdmin
+      isAdmin: args.isAdmin,
+      lastName: args.lastName,
+      firstName: args.firstName,
+      mobile: args.mobile,
+      profile_image: args.profile_image,
+      approved: args.approved,
+      refferalBonus: args.refferalBonus,
+      profession: args.profession
     }
   });
   return updatedUser;

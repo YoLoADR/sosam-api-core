@@ -15,10 +15,6 @@ type AggregateOffer {
   count: Int!
 }
 
-type AggregateReward {
-  count: Int!
-}
-
 type AggregateUser {
   count: Int!
 }
@@ -349,12 +345,6 @@ type Mutation {
   upsertOffer(where: OfferWhereUniqueInput!, create: OfferCreateInput!, update: OfferUpdateInput!): Offer!
   deleteOffer(where: OfferWhereUniqueInput!): Offer
   deleteManyOffers(where: OfferWhereInput): BatchPayload!
-  createReward(data: RewardCreateInput!): Reward!
-  updateReward(data: RewardUpdateInput!, where: RewardWhereUniqueInput!): Reward
-  updateManyRewards(data: RewardUpdateManyMutationInput!, where: RewardWhereInput): BatchPayload!
-  upsertReward(where: RewardWhereUniqueInput!, create: RewardCreateInput!, update: RewardUpdateInput!): Reward!
-  deleteReward(where: RewardWhereUniqueInput!): Reward
-  deleteManyRewards(where: RewardWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -631,150 +621,16 @@ type Query {
   offer(where: OfferWhereUniqueInput!): Offer
   offers(where: OfferWhereInput, orderBy: OfferOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Offer]!
   offersConnection(where: OfferWhereInput, orderBy: OfferOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OfferConnection!
-  reward(where: RewardWhereUniqueInput!): Reward
-  rewards(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reward]!
-  rewardsConnection(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RewardConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   node(id: ID!): Node
 }
 
-type Reward {
-  id: ID!
-  amount: String
-  key: String
-  updatedAt: DateTime!
-}
-
-type RewardConnection {
-  pageInfo: PageInfo!
-  edges: [RewardEdge]!
-  aggregate: AggregateReward!
-}
-
-input RewardCreateInput {
-  id: ID
-  amount: String
-  key: String
-}
-
-type RewardEdge {
-  node: Reward!
-  cursor: String!
-}
-
-enum RewardOrderByInput {
-  id_ASC
-  id_DESC
-  amount_ASC
-  amount_DESC
-  key_ASC
-  key_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type RewardPreviousValues {
-  id: ID!
-  amount: String
-  key: String
-  updatedAt: DateTime!
-}
-
-type RewardSubscriptionPayload {
-  mutation: MutationType!
-  node: Reward
-  updatedFields: [String!]
-  previousValues: RewardPreviousValues
-}
-
-input RewardSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: RewardWhereInput
-  AND: [RewardSubscriptionWhereInput!]
-  OR: [RewardSubscriptionWhereInput!]
-  NOT: [RewardSubscriptionWhereInput!]
-}
-
-input RewardUpdateInput {
-  amount: String
-  key: String
-}
-
-input RewardUpdateManyMutationInput {
-  amount: String
-  key: String
-}
-
-input RewardWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  amount: String
-  amount_not: String
-  amount_in: [String!]
-  amount_not_in: [String!]
-  amount_lt: String
-  amount_lte: String
-  amount_gt: String
-  amount_gte: String
-  amount_contains: String
-  amount_not_contains: String
-  amount_starts_with: String
-  amount_not_starts_with: String
-  amount_ends_with: String
-  amount_not_ends_with: String
-  key: String
-  key_not: String
-  key_in: [String!]
-  key_not_in: [String!]
-  key_lt: String
-  key_lte: String
-  key_gt: String
-  key_gte: String
-  key_contains: String
-  key_not_contains: String
-  key_starts_with: String
-  key_not_starts_with: String
-  key_ends_with: String
-  key_not_ends_with: String
-  updatedAt: DateTime
-  updatedAt_not: DateTime
-  updatedAt_in: [DateTime!]
-  updatedAt_not_in: [DateTime!]
-  updatedAt_lt: DateTime
-  updatedAt_lte: DateTime
-  updatedAt_gt: DateTime
-  updatedAt_gte: DateTime
-  AND: [RewardWhereInput!]
-  OR: [RewardWhereInput!]
-  NOT: [RewardWhereInput!]
-}
-
-input RewardWhereUniqueInput {
-  id: ID
-}
-
 type Subscription {
   cancelReason(where: CancelReasonSubscriptionWhereInput): CancelReasonSubscriptionPayload
   carType(where: CarTypeSubscriptionWhereInput): CarTypeSubscriptionPayload
   offer(where: OfferSubscriptionWhereInput): OfferSubscriptionPayload
-  reward(where: RewardSubscriptionWhereInput): RewardSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -787,6 +643,14 @@ type User {
   password: String!
   usertype: String
   isAdmin: Boolean
+  lastName: String
+  firstName: String
+  updatedAt: DateTime
+  mobile: String
+  profile_image: String
+  approved: Boolean
+  refferalBonus: String
+  profession: String
 }
 
 type UserConnection {
@@ -803,6 +667,13 @@ input UserCreateInput {
   password: String!
   usertype: String
   isAdmin: Boolean
+  lastName: String
+  firstName: String
+  mobile: String
+  profile_image: String
+  approved: Boolean
+  refferalBonus: String
+  profession: String
 }
 
 type UserEdge {
@@ -827,6 +698,22 @@ enum UserOrderByInput {
   usertype_DESC
   isAdmin_ASC
   isAdmin_DESC
+  lastName_ASC
+  lastName_DESC
+  firstName_ASC
+  firstName_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  mobile_ASC
+  mobile_DESC
+  profile_image_ASC
+  profile_image_DESC
+  approved_ASC
+  approved_DESC
+  refferalBonus_ASC
+  refferalBonus_DESC
+  profession_ASC
+  profession_DESC
 }
 
 type UserPreviousValues {
@@ -838,6 +725,14 @@ type UserPreviousValues {
   password: String!
   usertype: String
   isAdmin: Boolean
+  lastName: String
+  firstName: String
+  updatedAt: DateTime
+  mobile: String
+  profile_image: String
+  approved: Boolean
+  refferalBonus: String
+  profession: String
 }
 
 type UserSubscriptionPayload {
@@ -865,6 +760,13 @@ input UserUpdateInput {
   password: String
   usertype: String
   isAdmin: Boolean
+  lastName: String
+  firstName: String
+  mobile: String
+  profile_image: String
+  approved: Boolean
+  refferalBonus: String
+  profession: String
 }
 
 input UserUpdateManyMutationInput {
@@ -874,6 +776,13 @@ input UserUpdateManyMutationInput {
   password: String
   usertype: String
   isAdmin: Boolean
+  lastName: String
+  firstName: String
+  mobile: String
+  profile_image: String
+  approved: Boolean
+  refferalBonus: String
+  profession: String
 }
 
 input UserWhereInput {
@@ -971,6 +880,100 @@ input UserWhereInput {
   usertype_not_ends_with: String
   isAdmin: Boolean
   isAdmin_not: Boolean
+  lastName: String
+  lastName_not: String
+  lastName_in: [String!]
+  lastName_not_in: [String!]
+  lastName_lt: String
+  lastName_lte: String
+  lastName_gt: String
+  lastName_gte: String
+  lastName_contains: String
+  lastName_not_contains: String
+  lastName_starts_with: String
+  lastName_not_starts_with: String
+  lastName_ends_with: String
+  lastName_not_ends_with: String
+  firstName: String
+  firstName_not: String
+  firstName_in: [String!]
+  firstName_not_in: [String!]
+  firstName_lt: String
+  firstName_lte: String
+  firstName_gt: String
+  firstName_gte: String
+  firstName_contains: String
+  firstName_not_contains: String
+  firstName_starts_with: String
+  firstName_not_starts_with: String
+  firstName_ends_with: String
+  firstName_not_ends_with: String
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  mobile: String
+  mobile_not: String
+  mobile_in: [String!]
+  mobile_not_in: [String!]
+  mobile_lt: String
+  mobile_lte: String
+  mobile_gt: String
+  mobile_gte: String
+  mobile_contains: String
+  mobile_not_contains: String
+  mobile_starts_with: String
+  mobile_not_starts_with: String
+  mobile_ends_with: String
+  mobile_not_ends_with: String
+  profile_image: String
+  profile_image_not: String
+  profile_image_in: [String!]
+  profile_image_not_in: [String!]
+  profile_image_lt: String
+  profile_image_lte: String
+  profile_image_gt: String
+  profile_image_gte: String
+  profile_image_contains: String
+  profile_image_not_contains: String
+  profile_image_starts_with: String
+  profile_image_not_starts_with: String
+  profile_image_ends_with: String
+  profile_image_not_ends_with: String
+  approved: Boolean
+  approved_not: Boolean
+  refferalBonus: String
+  refferalBonus_not: String
+  refferalBonus_in: [String!]
+  refferalBonus_not_in: [String!]
+  refferalBonus_lt: String
+  refferalBonus_lte: String
+  refferalBonus_gt: String
+  refferalBonus_gte: String
+  refferalBonus_contains: String
+  refferalBonus_not_contains: String
+  refferalBonus_starts_with: String
+  refferalBonus_not_starts_with: String
+  refferalBonus_ends_with: String
+  refferalBonus_not_ends_with: String
+  profession: String
+  profession_not: String
+  profession_in: [String!]
+  profession_not_in: [String!]
+  profession_lt: String
+  profession_lte: String
+  profession_gt: String
+  profession_gte: String
+  profession_contains: String
+  profession_not_contains: String
+  profession_starts_with: String
+  profession_not_starts_with: String
+  profession_ends_with: String
+  profession_not_ends_with: String
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

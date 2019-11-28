@@ -1,12 +1,20 @@
 type User {
   id: ID! @id
   name: String!
-  email: String! @unique
+  email: String! @unique  
   createdAt: DateTime! @createdAt
   description: String
   password: String!
   usertype: String
   isAdmin: Boolean
+  lastName: String
+  firstName: String
+  updatedAt: DateTime @updatedAt
+  mobile: String
+  profile_image: String
+  approved: Boolean
+  refferalBonus: String
+  profession: String
 }
 
 type CancelReason {
@@ -35,12 +43,5 @@ type CarType {
   name: String
   rate_per_hour: Int
   rate_per_kilometer: String
-  updatedAt: DateTime! @updatedAt
-}
-
-type Reward {
-  id: ID! @id
-  amount: String
-  key: String
   updatedAt: DateTime! @updatedAt
 }

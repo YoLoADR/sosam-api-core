@@ -19,7 +19,6 @@ export interface Exists {
   cancelReason: (where?: CancelReasonWhereInput) => Promise<boolean>;
   carType: (where?: CarTypeWhereInput) => Promise<boolean>;
   offer: (where?: OfferWhereInput) => Promise<boolean>;
-  reward: (where?: RewardWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -101,25 +100,6 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => OfferConnectionPromise;
-  reward: (where: RewardWhereUniqueInput) => RewardNullablePromise;
-  rewards: (args?: {
-    where?: RewardWhereInput;
-    orderBy?: RewardOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<Reward>;
-  rewardsConnection: (args?: {
-    where?: RewardWhereInput;
-    orderBy?: RewardOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => RewardConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -197,22 +177,6 @@ export interface Prisma {
   }) => OfferPromise;
   deleteOffer: (where: OfferWhereUniqueInput) => OfferPromise;
   deleteManyOffers: (where?: OfferWhereInput) => BatchPayloadPromise;
-  createReward: (data: RewardCreateInput) => RewardPromise;
-  updateReward: (args: {
-    data: RewardUpdateInput;
-    where: RewardWhereUniqueInput;
-  }) => RewardPromise;
-  updateManyRewards: (args: {
-    data: RewardUpdateManyMutationInput;
-    where?: RewardWhereInput;
-  }) => BatchPayloadPromise;
-  upsertReward: (args: {
-    where: RewardWhereUniqueInput;
-    create: RewardCreateInput;
-    update: RewardUpdateInput;
-  }) => RewardPromise;
-  deleteReward: (where: RewardWhereUniqueInput) => RewardPromise;
-  deleteManyRewards: (where?: RewardWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -247,9 +211,6 @@ export interface Subscription {
   offer: (
     where?: OfferSubscriptionWhereInput
   ) => OfferSubscriptionPayloadSubscription;
-  reward: (
-    where?: RewardSubscriptionWhereInput
-  ) => RewardSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -279,13 +240,41 @@ export type CarTypeOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type CancelReasonOrderByInput =
+export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "value_ASC"
-  | "value_DESC"
-  | "label_ASC"
-  | "label_DESC";
+  | "name_ASC"
+  | "name_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "description_ASC"
+  | "description_DESC"
+  | "password_ASC"
+  | "password_DESC"
+  | "usertype_ASC"
+  | "usertype_DESC"
+  | "isAdmin_ASC"
+  | "isAdmin_DESC"
+  | "lastName_ASC"
+  | "lastName_DESC"
+  | "firstName_ASC"
+  | "firstName_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC"
+  | "mobile_ASC"
+  | "mobile_DESC"
+  | "profile_image_ASC"
+  | "profile_image_DESC"
+  | "approved_ASC"
+  | "approved_DESC"
+  | "refferalBonus_ASC"
+  | "refferalBonus_DESC"
+  | "profession_ASC"
+  | "profession_DESC";
+
+export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export type OfferOrderByInput =
   | "id_ASC"
@@ -309,138 +298,53 @@ export type OfferOrderByInput =
   | "promo_validity_ASC"
   | "promo_validity_DESC";
 
-export type RewardOrderByInput =
+export type CancelReasonOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "amount_ASC"
-  | "amount_DESC"
-  | "key_ASC"
-  | "key_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
+  | "value_ASC"
+  | "value_DESC"
+  | "label_ASC"
+  | "label_DESC";
 
-export type MutationType = "CREATED" | "UPDATED" | "DELETED";
-
-export type UserOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "email_ASC"
-  | "email_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "description_ASC"
-  | "description_DESC"
-  | "password_ASC"
-  | "password_DESC"
-  | "usertype_ASC"
-  | "usertype_DESC"
-  | "isAdmin_ASC"
-  | "isAdmin_DESC";
+export interface OfferCreateInput {
+  id?: Maybe<ID_Input>;
+  max_promo_discount_value?: Maybe<Int>;
+  min_order?: Maybe<Int>;
+  promo_description?: Maybe<String>;
+  promo_discount_type?: Maybe<String>;
+  promo_discount_value?: Maybe<Int>;
+  promo_name?: Maybe<String>;
+  promo_start?: Maybe<String>;
+  promo_usage_limit?: Maybe<Int>;
+  promo_validity?: Maybe<String>;
+}
 
 export type CancelReasonWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface CancelReasonWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  value?: Maybe<String>;
-  value_not?: Maybe<String>;
-  value_in?: Maybe<String[] | String>;
-  value_not_in?: Maybe<String[] | String>;
-  value_lt?: Maybe<String>;
-  value_lte?: Maybe<String>;
-  value_gt?: Maybe<String>;
-  value_gte?: Maybe<String>;
-  value_contains?: Maybe<String>;
-  value_not_contains?: Maybe<String>;
-  value_starts_with?: Maybe<String>;
-  value_not_starts_with?: Maybe<String>;
-  value_ends_with?: Maybe<String>;
-  value_not_ends_with?: Maybe<String>;
-  label?: Maybe<String>;
-  label_not?: Maybe<String>;
-  label_in?: Maybe<String[] | String>;
-  label_not_in?: Maybe<String[] | String>;
-  label_lt?: Maybe<String>;
-  label_lte?: Maybe<String>;
-  label_gt?: Maybe<String>;
-  label_gte?: Maybe<String>;
-  label_contains?: Maybe<String>;
-  label_not_contains?: Maybe<String>;
-  label_starts_with?: Maybe<String>;
-  label_not_starts_with?: Maybe<String>;
-  label_ends_with?: Maybe<String>;
-  label_not_ends_with?: Maybe<String>;
-  AND?: Maybe<CancelReasonWhereInput[] | CancelReasonWhereInput>;
-  OR?: Maybe<CancelReasonWhereInput[] | CancelReasonWhereInput>;
-  NOT?: Maybe<CancelReasonWhereInput[] | CancelReasonWhereInput>;
+export interface CarTypeUpdateInput {
+  convenience_fees?: Maybe<Int>;
+  image?: Maybe<String>;
+  name?: Maybe<String>;
+  rate_per_hour?: Maybe<Int>;
+  rate_per_kilometer?: Maybe<String>;
 }
 
-export interface CancelReasonCreateInput {
-  id?: Maybe<ID_Input>;
-  value: String;
-  label: String;
-}
-
-export interface RewardCreateInput {
-  id?: Maybe<ID_Input>;
-  amount?: Maybe<String>;
-  key?: Maybe<String>;
-}
-
-export interface RewardSubscriptionWhereInput {
+export interface OfferSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<RewardWhereInput>;
-  AND?: Maybe<RewardSubscriptionWhereInput[] | RewardSubscriptionWhereInput>;
-  OR?: Maybe<RewardSubscriptionWhereInput[] | RewardSubscriptionWhereInput>;
-  NOT?: Maybe<RewardSubscriptionWhereInput[] | RewardSubscriptionWhereInput>;
+  node?: Maybe<OfferWhereInput>;
+  AND?: Maybe<OfferSubscriptionWhereInput[] | OfferSubscriptionWhereInput>;
+  OR?: Maybe<OfferSubscriptionWhereInput[] | OfferSubscriptionWhereInput>;
+  NOT?: Maybe<OfferSubscriptionWhereInput[] | OfferSubscriptionWhereInput>;
 }
 
-export interface OfferUpdateManyMutationInput {
-  max_promo_discount_value?: Maybe<Int>;
-  min_order?: Maybe<Int>;
-  promo_description?: Maybe<String>;
-  promo_discount_type?: Maybe<String>;
-  promo_discount_value?: Maybe<Int>;
-  promo_name?: Maybe<String>;
-  promo_start?: Maybe<String>;
-  promo_usage_limit?: Maybe<Int>;
-  promo_validity?: Maybe<String>;
-}
-
-export type CarTypeWhereUniqueInput = AtLeastOne<{
+export type OfferWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
-
-export interface OfferUpdateInput {
-  max_promo_discount_value?: Maybe<Int>;
-  min_order?: Maybe<Int>;
-  promo_description?: Maybe<String>;
-  promo_discount_type?: Maybe<String>;
-  promo_discount_value?: Maybe<Int>;
-  promo_name?: Maybe<String>;
-  promo_start?: Maybe<String>;
-  promo_usage_limit?: Maybe<Int>;
-  promo_validity?: Maybe<String>;
-}
 
 export interface CancelReasonSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
@@ -459,108 +363,29 @@ export interface CancelReasonSubscriptionWhereInput {
   >;
 }
 
-export type RewardWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
+export interface CarTypeCreateInput {
+  id?: Maybe<ID_Input>;
+  convenience_fees?: Maybe<Int>;
+  image?: Maybe<String>;
+  name?: Maybe<String>;
+  rate_per_hour?: Maybe<Int>;
+  rate_per_kilometer?: Maybe<String>;
+}
 
-export interface UserUpdateManyMutationInput {
+export interface UserUpdateInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   description?: Maybe<String>;
   password?: Maybe<String>;
   usertype?: Maybe<String>;
   isAdmin?: Maybe<Boolean>;
-}
-
-export interface OfferCreateInput {
-  id?: Maybe<ID_Input>;
-  max_promo_discount_value?: Maybe<Int>;
-  min_order?: Maybe<Int>;
-  promo_description?: Maybe<String>;
-  promo_discount_type?: Maybe<String>;
-  promo_discount_value?: Maybe<Int>;
-  promo_name?: Maybe<String>;
-  promo_start?: Maybe<String>;
-  promo_usage_limit?: Maybe<Int>;
-  promo_validity?: Maybe<String>;
-}
-
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  email: String;
-  description?: Maybe<String>;
-  password: String;
-  usertype?: Maybe<String>;
-  isAdmin?: Maybe<Boolean>;
-}
-
-export interface RewardWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  amount?: Maybe<String>;
-  amount_not?: Maybe<String>;
-  amount_in?: Maybe<String[] | String>;
-  amount_not_in?: Maybe<String[] | String>;
-  amount_lt?: Maybe<String>;
-  amount_lte?: Maybe<String>;
-  amount_gt?: Maybe<String>;
-  amount_gte?: Maybe<String>;
-  amount_contains?: Maybe<String>;
-  amount_not_contains?: Maybe<String>;
-  amount_starts_with?: Maybe<String>;
-  amount_not_starts_with?: Maybe<String>;
-  amount_ends_with?: Maybe<String>;
-  amount_not_ends_with?: Maybe<String>;
-  key?: Maybe<String>;
-  key_not?: Maybe<String>;
-  key_in?: Maybe<String[] | String>;
-  key_not_in?: Maybe<String[] | String>;
-  key_lt?: Maybe<String>;
-  key_lte?: Maybe<String>;
-  key_gt?: Maybe<String>;
-  key_gte?: Maybe<String>;
-  key_contains?: Maybe<String>;
-  key_not_contains?: Maybe<String>;
-  key_starts_with?: Maybe<String>;
-  key_not_starts_with?: Maybe<String>;
-  key_ends_with?: Maybe<String>;
-  key_not_ends_with?: Maybe<String>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<RewardWhereInput[] | RewardWhereInput>;
-  OR?: Maybe<RewardWhereInput[] | RewardWhereInput>;
-  NOT?: Maybe<RewardWhereInput[] | RewardWhereInput>;
-}
-
-export type OfferWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface CarTypeUpdateManyMutationInput {
-  convenience_fees?: Maybe<Int>;
-  image?: Maybe<String>;
-  name?: Maybe<String>;
-  rate_per_hour?: Maybe<Int>;
-  rate_per_kilometer?: Maybe<String>;
+  lastName?: Maybe<String>;
+  firstName?: Maybe<String>;
+  mobile?: Maybe<String>;
+  profile_image?: Maybe<String>;
+  approved?: Maybe<Boolean>;
+  refferalBonus?: Maybe<String>;
+  profession?: Maybe<String>;
 }
 
 export interface OfferWhereInput {
@@ -685,27 +510,55 @@ export interface OfferWhereInput {
   NOT?: Maybe<OfferWhereInput[] | OfferWhereInput>;
 }
 
-export interface CarTypeUpdateInput {
-  convenience_fees?: Maybe<Int>;
-  image?: Maybe<String>;
-  name?: Maybe<String>;
-  rate_per_hour?: Maybe<Int>;
-  rate_per_kilometer?: Maybe<String>;
-}
+export type CarTypeWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
-export interface OfferSubscriptionWhereInput {
+export interface CarTypeSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<OfferWhereInput>;
-  AND?: Maybe<OfferSubscriptionWhereInput[] | OfferSubscriptionWhereInput>;
-  OR?: Maybe<OfferSubscriptionWhereInput[] | OfferSubscriptionWhereInput>;
-  NOT?: Maybe<OfferSubscriptionWhereInput[] | OfferSubscriptionWhereInput>;
+  node?: Maybe<CarTypeWhereInput>;
+  AND?: Maybe<CarTypeSubscriptionWhereInput[] | CarTypeSubscriptionWhereInput>;
+  OR?: Maybe<CarTypeSubscriptionWhereInput[] | CarTypeSubscriptionWhereInput>;
+  NOT?: Maybe<CarTypeSubscriptionWhereInput[] | CarTypeSubscriptionWhereInput>;
 }
 
-export interface CarTypeCreateInput {
-  id?: Maybe<ID_Input>;
+export interface OfferUpdateInput {
+  max_promo_discount_value?: Maybe<Int>;
+  min_order?: Maybe<Int>;
+  promo_description?: Maybe<String>;
+  promo_discount_type?: Maybe<String>;
+  promo_discount_value?: Maybe<Int>;
+  promo_name?: Maybe<String>;
+  promo_start?: Maybe<String>;
+  promo_usage_limit?: Maybe<Int>;
+  promo_validity?: Maybe<String>;
+}
+
+export interface CancelReasonUpdateManyMutationInput {
+  value?: Maybe<String>;
+  label?: Maybe<String>;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+}
+
+export interface CancelReasonUpdateInput {
+  value?: Maybe<String>;
+  label?: Maybe<String>;
+}
+
+export interface CarTypeUpdateManyMutationInput {
   convenience_fees?: Maybe<Int>;
   image?: Maybe<String>;
   name?: Maybe<String>;
@@ -713,90 +566,21 @@ export interface CarTypeCreateInput {
   rate_per_kilometer?: Maybe<String>;
 }
 
-export interface CarTypeWhereInput {
+export interface UserCreateInput {
   id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  convenience_fees?: Maybe<Int>;
-  convenience_fees_not?: Maybe<Int>;
-  convenience_fees_in?: Maybe<Int[] | Int>;
-  convenience_fees_not_in?: Maybe<Int[] | Int>;
-  convenience_fees_lt?: Maybe<Int>;
-  convenience_fees_lte?: Maybe<Int>;
-  convenience_fees_gt?: Maybe<Int>;
-  convenience_fees_gte?: Maybe<Int>;
-  image?: Maybe<String>;
-  image_not?: Maybe<String>;
-  image_in?: Maybe<String[] | String>;
-  image_not_in?: Maybe<String[] | String>;
-  image_lt?: Maybe<String>;
-  image_lte?: Maybe<String>;
-  image_gt?: Maybe<String>;
-  image_gte?: Maybe<String>;
-  image_contains?: Maybe<String>;
-  image_not_contains?: Maybe<String>;
-  image_starts_with?: Maybe<String>;
-  image_not_starts_with?: Maybe<String>;
-  image_ends_with?: Maybe<String>;
-  image_not_ends_with?: Maybe<String>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  rate_per_hour?: Maybe<Int>;
-  rate_per_hour_not?: Maybe<Int>;
-  rate_per_hour_in?: Maybe<Int[] | Int>;
-  rate_per_hour_not_in?: Maybe<Int[] | Int>;
-  rate_per_hour_lt?: Maybe<Int>;
-  rate_per_hour_lte?: Maybe<Int>;
-  rate_per_hour_gt?: Maybe<Int>;
-  rate_per_hour_gte?: Maybe<Int>;
-  rate_per_kilometer?: Maybe<String>;
-  rate_per_kilometer_not?: Maybe<String>;
-  rate_per_kilometer_in?: Maybe<String[] | String>;
-  rate_per_kilometer_not_in?: Maybe<String[] | String>;
-  rate_per_kilometer_lt?: Maybe<String>;
-  rate_per_kilometer_lte?: Maybe<String>;
-  rate_per_kilometer_gt?: Maybe<String>;
-  rate_per_kilometer_gte?: Maybe<String>;
-  rate_per_kilometer_contains?: Maybe<String>;
-  rate_per_kilometer_not_contains?: Maybe<String>;
-  rate_per_kilometer_starts_with?: Maybe<String>;
-  rate_per_kilometer_not_starts_with?: Maybe<String>;
-  rate_per_kilometer_ends_with?: Maybe<String>;
-  rate_per_kilometer_not_ends_with?: Maybe<String>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<CarTypeWhereInput[] | CarTypeWhereInput>;
-  OR?: Maybe<CarTypeWhereInput[] | CarTypeWhereInput>;
-  NOT?: Maybe<CarTypeWhereInput[] | CarTypeWhereInput>;
+  name: String;
+  email: String;
+  description?: Maybe<String>;
+  password: String;
+  usertype?: Maybe<String>;
+  isAdmin?: Maybe<Boolean>;
+  lastName?: Maybe<String>;
+  firstName?: Maybe<String>;
+  mobile?: Maybe<String>;
+  profile_image?: Maybe<String>;
+  approved?: Maybe<Boolean>;
+  refferalBonus?: Maybe<String>;
+  profession?: Maybe<String>;
 }
 
 export interface UserWhereInput {
@@ -894,14 +678,103 @@ export interface UserWhereInput {
   usertype_not_ends_with?: Maybe<String>;
   isAdmin?: Maybe<Boolean>;
   isAdmin_not?: Maybe<Boolean>;
+  lastName?: Maybe<String>;
+  lastName_not?: Maybe<String>;
+  lastName_in?: Maybe<String[] | String>;
+  lastName_not_in?: Maybe<String[] | String>;
+  lastName_lt?: Maybe<String>;
+  lastName_lte?: Maybe<String>;
+  lastName_gt?: Maybe<String>;
+  lastName_gte?: Maybe<String>;
+  lastName_contains?: Maybe<String>;
+  lastName_not_contains?: Maybe<String>;
+  lastName_starts_with?: Maybe<String>;
+  lastName_not_starts_with?: Maybe<String>;
+  lastName_ends_with?: Maybe<String>;
+  lastName_not_ends_with?: Maybe<String>;
+  firstName?: Maybe<String>;
+  firstName_not?: Maybe<String>;
+  firstName_in?: Maybe<String[] | String>;
+  firstName_not_in?: Maybe<String[] | String>;
+  firstName_lt?: Maybe<String>;
+  firstName_lte?: Maybe<String>;
+  firstName_gt?: Maybe<String>;
+  firstName_gte?: Maybe<String>;
+  firstName_contains?: Maybe<String>;
+  firstName_not_contains?: Maybe<String>;
+  firstName_starts_with?: Maybe<String>;
+  firstName_not_starts_with?: Maybe<String>;
+  firstName_ends_with?: Maybe<String>;
+  firstName_not_ends_with?: Maybe<String>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  mobile?: Maybe<String>;
+  mobile_not?: Maybe<String>;
+  mobile_in?: Maybe<String[] | String>;
+  mobile_not_in?: Maybe<String[] | String>;
+  mobile_lt?: Maybe<String>;
+  mobile_lte?: Maybe<String>;
+  mobile_gt?: Maybe<String>;
+  mobile_gte?: Maybe<String>;
+  mobile_contains?: Maybe<String>;
+  mobile_not_contains?: Maybe<String>;
+  mobile_starts_with?: Maybe<String>;
+  mobile_not_starts_with?: Maybe<String>;
+  mobile_ends_with?: Maybe<String>;
+  mobile_not_ends_with?: Maybe<String>;
+  profile_image?: Maybe<String>;
+  profile_image_not?: Maybe<String>;
+  profile_image_in?: Maybe<String[] | String>;
+  profile_image_not_in?: Maybe<String[] | String>;
+  profile_image_lt?: Maybe<String>;
+  profile_image_lte?: Maybe<String>;
+  profile_image_gt?: Maybe<String>;
+  profile_image_gte?: Maybe<String>;
+  profile_image_contains?: Maybe<String>;
+  profile_image_not_contains?: Maybe<String>;
+  profile_image_starts_with?: Maybe<String>;
+  profile_image_not_starts_with?: Maybe<String>;
+  profile_image_ends_with?: Maybe<String>;
+  profile_image_not_ends_with?: Maybe<String>;
+  approved?: Maybe<Boolean>;
+  approved_not?: Maybe<Boolean>;
+  refferalBonus?: Maybe<String>;
+  refferalBonus_not?: Maybe<String>;
+  refferalBonus_in?: Maybe<String[] | String>;
+  refferalBonus_not_in?: Maybe<String[] | String>;
+  refferalBonus_lt?: Maybe<String>;
+  refferalBonus_lte?: Maybe<String>;
+  refferalBonus_gt?: Maybe<String>;
+  refferalBonus_gte?: Maybe<String>;
+  refferalBonus_contains?: Maybe<String>;
+  refferalBonus_not_contains?: Maybe<String>;
+  refferalBonus_starts_with?: Maybe<String>;
+  refferalBonus_not_starts_with?: Maybe<String>;
+  refferalBonus_ends_with?: Maybe<String>;
+  refferalBonus_not_ends_with?: Maybe<String>;
+  profession?: Maybe<String>;
+  profession_not?: Maybe<String>;
+  profession_in?: Maybe<String[] | String>;
+  profession_not_in?: Maybe<String[] | String>;
+  profession_lt?: Maybe<String>;
+  profession_lte?: Maybe<String>;
+  profession_gt?: Maybe<String>;
+  profession_gte?: Maybe<String>;
+  profession_contains?: Maybe<String>;
+  profession_not_contains?: Maybe<String>;
+  profession_starts_with?: Maybe<String>;
+  profession_not_starts_with?: Maybe<String>;
+  profession_ends_with?: Maybe<String>;
+  profession_not_ends_with?: Maybe<String>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
-}
-
-export interface CancelReasonUpdateInput {
-  value?: Maybe<String>;
-  label?: Maybe<String>;
 }
 
 export type UserWhereUniqueInput = AtLeastOne<{
@@ -909,150 +782,176 @@ export type UserWhereUniqueInput = AtLeastOne<{
   email?: Maybe<String>;
 }>;
 
-export interface CancelReasonUpdateManyMutationInput {
-  value?: Maybe<String>;
-  label?: Maybe<String>;
+export interface CancelReasonCreateInput {
+  id?: Maybe<ID_Input>;
+  value: String;
+  label: String;
 }
 
-export interface UserUpdateInput {
+export interface OfferUpdateManyMutationInput {
+  max_promo_discount_value?: Maybe<Int>;
+  min_order?: Maybe<Int>;
+  promo_description?: Maybe<String>;
+  promo_discount_type?: Maybe<String>;
+  promo_discount_value?: Maybe<Int>;
+  promo_name?: Maybe<String>;
+  promo_start?: Maybe<String>;
+  promo_usage_limit?: Maybe<Int>;
+  promo_validity?: Maybe<String>;
+}
+
+export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   description?: Maybe<String>;
   password?: Maybe<String>;
   usertype?: Maybe<String>;
   isAdmin?: Maybe<Boolean>;
+  lastName?: Maybe<String>;
+  firstName?: Maybe<String>;
+  mobile?: Maybe<String>;
+  profile_image?: Maybe<String>;
+  approved?: Maybe<Boolean>;
+  refferalBonus?: Maybe<String>;
+  profession?: Maybe<String>;
 }
 
-export interface CarTypeSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<CarTypeWhereInput>;
-  AND?: Maybe<CarTypeSubscriptionWhereInput[] | CarTypeSubscriptionWhereInput>;
-  OR?: Maybe<CarTypeSubscriptionWhereInput[] | CarTypeSubscriptionWhereInput>;
-  NOT?: Maybe<CarTypeSubscriptionWhereInput[] | CarTypeSubscriptionWhereInput>;
+export interface CancelReasonWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  value?: Maybe<String>;
+  value_not?: Maybe<String>;
+  value_in?: Maybe<String[] | String>;
+  value_not_in?: Maybe<String[] | String>;
+  value_lt?: Maybe<String>;
+  value_lte?: Maybe<String>;
+  value_gt?: Maybe<String>;
+  value_gte?: Maybe<String>;
+  value_contains?: Maybe<String>;
+  value_not_contains?: Maybe<String>;
+  value_starts_with?: Maybe<String>;
+  value_not_starts_with?: Maybe<String>;
+  value_ends_with?: Maybe<String>;
+  value_not_ends_with?: Maybe<String>;
+  label?: Maybe<String>;
+  label_not?: Maybe<String>;
+  label_in?: Maybe<String[] | String>;
+  label_not_in?: Maybe<String[] | String>;
+  label_lt?: Maybe<String>;
+  label_lte?: Maybe<String>;
+  label_gt?: Maybe<String>;
+  label_gte?: Maybe<String>;
+  label_contains?: Maybe<String>;
+  label_not_contains?: Maybe<String>;
+  label_starts_with?: Maybe<String>;
+  label_not_starts_with?: Maybe<String>;
+  label_ends_with?: Maybe<String>;
+  label_not_ends_with?: Maybe<String>;
+  AND?: Maybe<CancelReasonWhereInput[] | CancelReasonWhereInput>;
+  OR?: Maybe<CancelReasonWhereInput[] | CancelReasonWhereInput>;
+  NOT?: Maybe<CancelReasonWhereInput[] | CancelReasonWhereInput>;
 }
 
-export interface UserSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-}
-
-export interface RewardUpdateInput {
-  amount?: Maybe<String>;
-  key?: Maybe<String>;
-}
-
-export interface RewardUpdateManyMutationInput {
-  amount?: Maybe<String>;
-  key?: Maybe<String>;
+export interface CarTypeWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  convenience_fees?: Maybe<Int>;
+  convenience_fees_not?: Maybe<Int>;
+  convenience_fees_in?: Maybe<Int[] | Int>;
+  convenience_fees_not_in?: Maybe<Int[] | Int>;
+  convenience_fees_lt?: Maybe<Int>;
+  convenience_fees_lte?: Maybe<Int>;
+  convenience_fees_gt?: Maybe<Int>;
+  convenience_fees_gte?: Maybe<Int>;
+  image?: Maybe<String>;
+  image_not?: Maybe<String>;
+  image_in?: Maybe<String[] | String>;
+  image_not_in?: Maybe<String[] | String>;
+  image_lt?: Maybe<String>;
+  image_lte?: Maybe<String>;
+  image_gt?: Maybe<String>;
+  image_gte?: Maybe<String>;
+  image_contains?: Maybe<String>;
+  image_not_contains?: Maybe<String>;
+  image_starts_with?: Maybe<String>;
+  image_not_starts_with?: Maybe<String>;
+  image_ends_with?: Maybe<String>;
+  image_not_ends_with?: Maybe<String>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  rate_per_hour?: Maybe<Int>;
+  rate_per_hour_not?: Maybe<Int>;
+  rate_per_hour_in?: Maybe<Int[] | Int>;
+  rate_per_hour_not_in?: Maybe<Int[] | Int>;
+  rate_per_hour_lt?: Maybe<Int>;
+  rate_per_hour_lte?: Maybe<Int>;
+  rate_per_hour_gt?: Maybe<Int>;
+  rate_per_hour_gte?: Maybe<Int>;
+  rate_per_kilometer?: Maybe<String>;
+  rate_per_kilometer_not?: Maybe<String>;
+  rate_per_kilometer_in?: Maybe<String[] | String>;
+  rate_per_kilometer_not_in?: Maybe<String[] | String>;
+  rate_per_kilometer_lt?: Maybe<String>;
+  rate_per_kilometer_lte?: Maybe<String>;
+  rate_per_kilometer_gt?: Maybe<String>;
+  rate_per_kilometer_gte?: Maybe<String>;
+  rate_per_kilometer_contains?: Maybe<String>;
+  rate_per_kilometer_not_contains?: Maybe<String>;
+  rate_per_kilometer_starts_with?: Maybe<String>;
+  rate_per_kilometer_not_starts_with?: Maybe<String>;
+  rate_per_kilometer_ends_with?: Maybe<String>;
+  rate_per_kilometer_not_ends_with?: Maybe<String>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<CarTypeWhereInput[] | CarTypeWhereInput>;
+  OR?: Maybe<CarTypeWhereInput[] | CarTypeWhereInput>;
+  NOT?: Maybe<CarTypeWhereInput[] | CarTypeWhereInput>;
 }
 
 export interface NodeNode {
   id: ID_Output;
-}
-
-export interface UserPreviousValues {
-  id: ID_Output;
-  name: String;
-  email: String;
-  createdAt: DateTimeOutput;
-  description?: String;
-  password: String;
-  usertype?: String;
-  isAdmin?: Boolean;
-}
-
-export interface UserPreviousValuesPromise
-  extends Promise<UserPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  email: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-  description: () => Promise<String>;
-  password: () => Promise<String>;
-  usertype: () => Promise<String>;
-  isAdmin: () => Promise<Boolean>;
-}
-
-export interface UserPreviousValuesSubscription
-  extends Promise<AsyncIterator<UserPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  description: () => Promise<AsyncIterator<String>>;
-  password: () => Promise<AsyncIterator<String>>;
-  usertype: () => Promise<AsyncIterator<String>>;
-  isAdmin: () => Promise<AsyncIterator<Boolean>>;
-}
-
-export interface CarTypeEdge {
-  node: CarType;
-  cursor: String;
-}
-
-export interface CarTypeEdgePromise extends Promise<CarTypeEdge>, Fragmentable {
-  node: <T = CarTypePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface CarTypeEdgeSubscription
-  extends Promise<AsyncIterator<CarTypeEdge>>,
-    Fragmentable {
-  node: <T = CarTypeSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CancelReasonConnection {
-  pageInfo: PageInfo;
-  edges: CancelReasonEdge[];
-}
-
-export interface CancelReasonConnectionPromise
-  extends Promise<CancelReasonConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<CancelReasonEdge>>() => T;
-  aggregate: <T = AggregateCancelReasonPromise>() => T;
-}
-
-export interface CancelReasonConnectionSubscription
-  extends Promise<AsyncIterator<CancelReasonConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CancelReasonEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCancelReasonSubscription>() => T;
-}
-
-export interface CarTypeConnection {
-  pageInfo: PageInfo;
-  edges: CarTypeEdge[];
-}
-
-export interface CarTypeConnectionPromise
-  extends Promise<CarTypeConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<CarTypeEdge>>() => T;
-  aggregate: <T = AggregateCarTypePromise>() => T;
-}
-
-export interface CarTypeConnectionSubscription
-  extends Promise<AsyncIterator<CarTypeConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CarTypeEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCarTypeSubscription>() => T;
 }
 
 export interface UserConnection {
@@ -1076,21 +975,81 @@ export interface UserConnectionSubscription
   aggregate: <T = AggregateUserSubscription>() => T;
 }
 
-export interface UserEdge {
-  node: User;
-  cursor: String;
+export interface AggregateCancelReason {
+  count: Int;
 }
 
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
+export interface AggregateCancelReasonPromise
+  extends Promise<AggregateCancelReason>,
     Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCancelReasonSubscription
+  extends Promise<AsyncIterator<AggregateCancelReason>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserPreviousValues {
+  id: ID_Output;
+  name: String;
+  email: String;
+  createdAt: DateTimeOutput;
+  description?: String;
+  password: String;
+  usertype?: String;
+  isAdmin?: Boolean;
+  lastName?: String;
+  firstName?: String;
+  updatedAt?: DateTimeOutput;
+  mobile?: String;
+  profile_image?: String;
+  approved?: Boolean;
+  refferalBonus?: String;
+  profession?: String;
+}
+
+export interface UserPreviousValuesPromise
+  extends Promise<UserPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  description: () => Promise<String>;
+  password: () => Promise<String>;
+  usertype: () => Promise<String>;
+  isAdmin: () => Promise<Boolean>;
+  lastName: () => Promise<String>;
+  firstName: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  mobile: () => Promise<String>;
+  profile_image: () => Promise<String>;
+  approved: () => Promise<Boolean>;
+  refferalBonus: () => Promise<String>;
+  profession: () => Promise<String>;
+}
+
+export interface UserPreviousValuesSubscription
+  extends Promise<AsyncIterator<UserPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  description: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  usertype: () => Promise<AsyncIterator<String>>;
+  isAdmin: () => Promise<AsyncIterator<Boolean>>;
+  lastName: () => Promise<AsyncIterator<String>>;
+  firstName: () => Promise<AsyncIterator<String>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  mobile: () => Promise<AsyncIterator<String>>;
+  profile_image: () => Promise<AsyncIterator<String>>;
+  approved: () => Promise<AsyncIterator<Boolean>>;
+  refferalBonus: () => Promise<AsyncIterator<String>>;
+  profession: () => Promise<AsyncIterator<String>>;
 }
 
 export interface CancelReasonEdge {
@@ -1112,29 +1071,6 @@ export interface CancelReasonEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
 export interface AggregateUser {
   count: Int;
 }
@@ -1151,434 +1087,21 @@ export interface AggregateUserSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface User {
-  id: ID_Output;
-  name: String;
-  email: String;
-  createdAt: DateTimeOutput;
-  description?: String;
-  password: String;
-  usertype?: String;
-  isAdmin?: Boolean;
-}
-
-export interface UserPromise extends Promise<User>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  email: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-  description: () => Promise<String>;
-  password: () => Promise<String>;
-  usertype: () => Promise<String>;
-  isAdmin: () => Promise<Boolean>;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  description: () => Promise<AsyncIterator<String>>;
-  password: () => Promise<AsyncIterator<String>>;
-  usertype: () => Promise<AsyncIterator<String>>;
-  isAdmin: () => Promise<AsyncIterator<Boolean>>;
-}
-
-export interface UserNullablePromise
-  extends Promise<User | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  email: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-  description: () => Promise<String>;
-  password: () => Promise<String>;
-  usertype: () => Promise<String>;
-  isAdmin: () => Promise<Boolean>;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface RewardSubscriptionPayload {
-  mutation: MutationType;
-  node: Reward;
-  updatedFields: String[];
-  previousValues: RewardPreviousValues;
-}
-
-export interface RewardSubscriptionPayloadPromise
-  extends Promise<RewardSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = RewardPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = RewardPreviousValuesPromise>() => T;
-}
-
-export interface RewardSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<RewardSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = RewardSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = RewardPreviousValuesSubscription>() => T;
-}
-
-export interface RewardEdge {
-  node: Reward;
+export interface UserEdge {
+  node: User;
   cursor: String;
 }
 
-export interface RewardEdgePromise extends Promise<RewardEdge>, Fragmentable {
-  node: <T = RewardPromise>() => T;
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface RewardEdgeSubscription
-  extends Promise<AsyncIterator<RewardEdge>>,
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
     Fragmentable {
-  node: <T = RewardSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CancelReason {
-  id: ID_Output;
-  value: String;
-  label: String;
-}
-
-export interface CancelReasonPromise
-  extends Promise<CancelReason>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  value: () => Promise<String>;
-  label: () => Promise<String>;
-}
-
-export interface CancelReasonSubscription
-  extends Promise<AsyncIterator<CancelReason>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  value: () => Promise<AsyncIterator<String>>;
-  label: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CancelReasonNullablePromise
-  extends Promise<CancelReason | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  value: () => Promise<String>;
-  label: () => Promise<String>;
-}
-
-export interface RewardPreviousValues {
-  id: ID_Output;
-  amount?: String;
-  key?: String;
-  updatedAt: DateTimeOutput;
-}
-
-export interface RewardPreviousValuesPromise
-  extends Promise<RewardPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  amount: () => Promise<String>;
-  key: () => Promise<String>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface RewardPreviousValuesSubscription
-  extends Promise<AsyncIterator<RewardPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  amount: () => Promise<AsyncIterator<String>>;
-  key: () => Promise<AsyncIterator<String>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface CancelReasonSubscriptionPayload {
-  mutation: MutationType;
-  node: CancelReason;
-  updatedFields: String[];
-  previousValues: CancelReasonPreviousValues;
-}
-
-export interface CancelReasonSubscriptionPayloadPromise
-  extends Promise<CancelReasonSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = CancelReasonPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = CancelReasonPreviousValuesPromise>() => T;
-}
-
-export interface CancelReasonSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<CancelReasonSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = CancelReasonSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = CancelReasonPreviousValuesSubscription>() => T;
-}
-
-export interface AggregateOffer {
-  count: Int;
-}
-
-export interface AggregateOfferPromise
-  extends Promise<AggregateOffer>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateOfferSubscription
-  extends Promise<AsyncIterator<AggregateOffer>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface CancelReasonPreviousValues {
-  id: ID_Output;
-  value: String;
-  label: String;
-}
-
-export interface CancelReasonPreviousValuesPromise
-  extends Promise<CancelReasonPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  value: () => Promise<String>;
-  label: () => Promise<String>;
-}
-
-export interface CancelReasonPreviousValuesSubscription
-  extends Promise<AsyncIterator<CancelReasonPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  value: () => Promise<AsyncIterator<String>>;
-  label: () => Promise<AsyncIterator<String>>;
-}
-
-export interface OfferConnection {
-  pageInfo: PageInfo;
-  edges: OfferEdge[];
-}
-
-export interface OfferConnectionPromise
-  extends Promise<OfferConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<OfferEdge>>() => T;
-  aggregate: <T = AggregateOfferPromise>() => T;
-}
-
-export interface OfferConnectionSubscription
-  extends Promise<AsyncIterator<OfferConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<OfferEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateOfferSubscription>() => T;
-}
-
-export interface CarType {
-  id: ID_Output;
-  convenience_fees?: Int;
-  image?: String;
-  name?: String;
-  rate_per_hour?: Int;
-  rate_per_kilometer?: String;
-  updatedAt: DateTimeOutput;
-}
-
-export interface CarTypePromise extends Promise<CarType>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  convenience_fees: () => Promise<Int>;
-  image: () => Promise<String>;
-  name: () => Promise<String>;
-  rate_per_hour: () => Promise<Int>;
-  rate_per_kilometer: () => Promise<String>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface CarTypeSubscription
-  extends Promise<AsyncIterator<CarType>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  convenience_fees: () => Promise<AsyncIterator<Int>>;
-  image: () => Promise<AsyncIterator<String>>;
-  name: () => Promise<AsyncIterator<String>>;
-  rate_per_hour: () => Promise<AsyncIterator<Int>>;
-  rate_per_kilometer: () => Promise<AsyncIterator<String>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface CarTypeNullablePromise
-  extends Promise<CarType | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  convenience_fees: () => Promise<Int>;
-  image: () => Promise<String>;
-  name: () => Promise<String>;
-  rate_per_hour: () => Promise<Int>;
-  rate_per_kilometer: () => Promise<String>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface AggregateCarType {
-  count: Int;
-}
-
-export interface AggregateCarTypePromise
-  extends Promise<AggregateCarType>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateCarTypeSubscription
-  extends Promise<AsyncIterator<AggregateCarType>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface CarTypeSubscriptionPayload {
-  mutation: MutationType;
-  node: CarType;
-  updatedFields: String[];
-  previousValues: CarTypePreviousValues;
-}
-
-export interface CarTypeSubscriptionPayloadPromise
-  extends Promise<CarTypeSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = CarTypePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = CarTypePreviousValuesPromise>() => T;
-}
-
-export interface CarTypeSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<CarTypeSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = CarTypeSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = CarTypePreviousValuesSubscription>() => T;
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
-}
-
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
   node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
-}
-
-export interface Reward {
-  id: ID_Output;
-  amount?: String;
-  key?: String;
-  updatedAt: DateTimeOutput;
-}
-
-export interface RewardPromise extends Promise<Reward>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  amount: () => Promise<String>;
-  key: () => Promise<String>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface RewardSubscription
-  extends Promise<AsyncIterator<Reward>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  amount: () => Promise<AsyncIterator<String>>;
-  key: () => Promise<AsyncIterator<String>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface RewardNullablePromise
-  extends Promise<Reward | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  amount: () => Promise<String>;
-  key: () => Promise<String>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface OfferPreviousValues {
-  id: ID_Output;
-  max_promo_discount_value?: Int;
-  min_order?: Int;
-  promo_description?: String;
-  promo_discount_type?: String;
-  promo_discount_value?: Int;
-  promo_name?: String;
-  promo_start?: String;
-  promo_usage_limit?: Int;
-  promo_validity?: String;
-}
-
-export interface OfferPreviousValuesPromise
-  extends Promise<OfferPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  max_promo_discount_value: () => Promise<Int>;
-  min_order: () => Promise<Int>;
-  promo_description: () => Promise<String>;
-  promo_discount_type: () => Promise<String>;
-  promo_discount_value: () => Promise<Int>;
-  promo_name: () => Promise<String>;
-  promo_start: () => Promise<String>;
-  promo_usage_limit: () => Promise<Int>;
-  promo_validity: () => Promise<String>;
-}
-
-export interface OfferPreviousValuesSubscription
-  extends Promise<AsyncIterator<OfferPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  max_promo_discount_value: () => Promise<AsyncIterator<Int>>;
-  min_order: () => Promise<AsyncIterator<Int>>;
-  promo_description: () => Promise<AsyncIterator<String>>;
-  promo_discount_type: () => Promise<AsyncIterator<String>>;
-  promo_discount_value: () => Promise<AsyncIterator<Int>>;
-  promo_name: () => Promise<AsyncIterator<String>>;
-  promo_start: () => Promise<AsyncIterator<String>>;
-  promo_usage_limit: () => Promise<AsyncIterator<Int>>;
-  promo_validity: () => Promise<AsyncIterator<String>>;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface OfferSubscriptionPayload {
@@ -1606,54 +1129,100 @@ export interface OfferSubscriptionPayloadSubscription
   previousValues: <T = OfferPreviousValuesSubscription>() => T;
 }
 
-export interface AggregateCancelReason {
+export interface User {
+  id: ID_Output;
+  name: String;
+  email: String;
+  createdAt: DateTimeOutput;
+  description?: String;
+  password: String;
+  usertype?: String;
+  isAdmin?: Boolean;
+  lastName?: String;
+  firstName?: String;
+  updatedAt?: DateTimeOutput;
+  mobile?: String;
+  profile_image?: String;
+  approved?: Boolean;
+  refferalBonus?: String;
+  profession?: String;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  description: () => Promise<String>;
+  password: () => Promise<String>;
+  usertype: () => Promise<String>;
+  isAdmin: () => Promise<Boolean>;
+  lastName: () => Promise<String>;
+  firstName: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  mobile: () => Promise<String>;
+  profile_image: () => Promise<String>;
+  approved: () => Promise<Boolean>;
+  refferalBonus: () => Promise<String>;
+  profession: () => Promise<String>;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  description: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  usertype: () => Promise<AsyncIterator<String>>;
+  isAdmin: () => Promise<AsyncIterator<Boolean>>;
+  lastName: () => Promise<AsyncIterator<String>>;
+  firstName: () => Promise<AsyncIterator<String>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  mobile: () => Promise<AsyncIterator<String>>;
+  profile_image: () => Promise<AsyncIterator<String>>;
+  approved: () => Promise<AsyncIterator<Boolean>>;
+  refferalBonus: () => Promise<AsyncIterator<String>>;
+  profession: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  description: () => Promise<String>;
+  password: () => Promise<String>;
+  usertype: () => Promise<String>;
+  isAdmin: () => Promise<Boolean>;
+  lastName: () => Promise<String>;
+  firstName: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  mobile: () => Promise<String>;
+  profile_image: () => Promise<String>;
+  approved: () => Promise<Boolean>;
+  refferalBonus: () => Promise<String>;
+  profession: () => Promise<String>;
+}
+
+export interface AggregateOffer {
   count: Int;
 }
 
-export interface AggregateCancelReasonPromise
-  extends Promise<AggregateCancelReason>,
+export interface AggregateOfferPromise
+  extends Promise<AggregateOffer>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateCancelReasonSubscription
-  extends Promise<AsyncIterator<AggregateCancelReason>>,
+export interface AggregateOfferSubscription
+  extends Promise<AsyncIterator<AggregateOffer>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface CarTypePreviousValues {
-  id: ID_Output;
-  convenience_fees?: Int;
-  image?: String;
-  name?: String;
-  rate_per_hour?: Int;
-  rate_per_kilometer?: String;
-  updatedAt: DateTimeOutput;
-}
-
-export interface CarTypePreviousValuesPromise
-  extends Promise<CarTypePreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  convenience_fees: () => Promise<Int>;
-  image: () => Promise<String>;
-  name: () => Promise<String>;
-  rate_per_hour: () => Promise<Int>;
-  rate_per_kilometer: () => Promise<String>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface CarTypePreviousValuesSubscription
-  extends Promise<AsyncIterator<CarTypePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  convenience_fees: () => Promise<AsyncIterator<Int>>;
-  image: () => Promise<AsyncIterator<String>>;
-  name: () => Promise<AsyncIterator<String>>;
-  rate_per_hour: () => Promise<AsyncIterator<Int>>;
-  rate_per_kilometer: () => Promise<AsyncIterator<String>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface OfferEdge {
@@ -1673,41 +1242,43 @@ export interface OfferEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface RewardConnection {
-  pageInfo: PageInfo;
-  edges: RewardEdge[];
+export interface BatchPayload {
+  count: Long;
 }
 
-export interface RewardConnectionPromise
-  extends Promise<RewardConnection>,
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<RewardEdge>>() => T;
-  aggregate: <T = AggregateRewardPromise>() => T;
+  count: () => Promise<Long>;
 }
 
-export interface RewardConnectionSubscription
-  extends Promise<AsyncIterator<RewardConnection>>,
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<RewardEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateRewardSubscription>() => T;
+  count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface AggregateReward {
-  count: Int;
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
 }
 
-export interface AggregateRewardPromise
-  extends Promise<AggregateReward>,
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
     Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateRewardSubscription
-  extends Promise<AsyncIterator<AggregateReward>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface Offer {
@@ -1766,10 +1337,354 @@ export interface OfferNullablePromise
   promo_validity: () => Promise<String>;
 }
 
+export interface CancelReasonConnection {
+  pageInfo: PageInfo;
+  edges: CancelReasonEdge[];
+}
+
+export interface CancelReasonConnectionPromise
+  extends Promise<CancelReasonConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<CancelReasonEdge>>() => T;
+  aggregate: <T = AggregateCancelReasonPromise>() => T;
+}
+
+export interface CancelReasonConnectionSubscription
+  extends Promise<AsyncIterator<CancelReasonConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CancelReasonEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCancelReasonSubscription>() => T;
+}
+
+export interface CarTypeEdge {
+  node: CarType;
+  cursor: String;
+}
+
+export interface CarTypeEdgePromise extends Promise<CarTypeEdge>, Fragmentable {
+  node: <T = CarTypePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface CarTypeEdgeSubscription
+  extends Promise<AsyncIterator<CarTypeEdge>>,
+    Fragmentable {
+  node: <T = CarTypeSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface CancelReasonSubscriptionPayload {
+  mutation: MutationType;
+  node: CancelReason;
+  updatedFields: String[];
+  previousValues: CancelReasonPreviousValues;
+}
+
+export interface CancelReasonSubscriptionPayloadPromise
+  extends Promise<CancelReasonSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = CancelReasonPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CancelReasonPreviousValuesPromise>() => T;
+}
+
+export interface CancelReasonSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CancelReasonSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CancelReasonSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CancelReasonPreviousValuesSubscription>() => T;
+}
+
+export interface CancelReason {
+  id: ID_Output;
+  value: String;
+  label: String;
+}
+
+export interface CancelReasonPromise
+  extends Promise<CancelReason>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  value: () => Promise<String>;
+  label: () => Promise<String>;
+}
+
+export interface CancelReasonSubscription
+  extends Promise<AsyncIterator<CancelReason>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  value: () => Promise<AsyncIterator<String>>;
+  label: () => Promise<AsyncIterator<String>>;
+}
+
+export interface CancelReasonNullablePromise
+  extends Promise<CancelReason | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  value: () => Promise<String>;
+  label: () => Promise<String>;
+}
+
+export interface OfferConnection {
+  pageInfo: PageInfo;
+  edges: OfferEdge[];
+}
+
+export interface OfferConnectionPromise
+  extends Promise<OfferConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<OfferEdge>>() => T;
+  aggregate: <T = AggregateOfferPromise>() => T;
+}
+
+export interface OfferConnectionSubscription
+  extends Promise<AsyncIterator<OfferConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<OfferEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateOfferSubscription>() => T;
+}
+
+export interface CarTypePreviousValues {
+  id: ID_Output;
+  convenience_fees?: Int;
+  image?: String;
+  name?: String;
+  rate_per_hour?: Int;
+  rate_per_kilometer?: String;
+  updatedAt: DateTimeOutput;
+}
+
+export interface CarTypePreviousValuesPromise
+  extends Promise<CarTypePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  convenience_fees: () => Promise<Int>;
+  image: () => Promise<String>;
+  name: () => Promise<String>;
+  rate_per_hour: () => Promise<Int>;
+  rate_per_kilometer: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface CarTypePreviousValuesSubscription
+  extends Promise<AsyncIterator<CarTypePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  convenience_fees: () => Promise<AsyncIterator<Int>>;
+  image: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  rate_per_hour: () => Promise<AsyncIterator<Int>>;
+  rate_per_kilometer: () => Promise<AsyncIterator<String>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface CarTypeSubscriptionPayload {
+  mutation: MutationType;
+  node: CarType;
+  updatedFields: String[];
+  previousValues: CarTypePreviousValues;
+}
+
+export interface CarTypeSubscriptionPayloadPromise
+  extends Promise<CarTypeSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = CarTypePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CarTypePreviousValuesPromise>() => T;
+}
+
+export interface CarTypeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CarTypeSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CarTypeSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CarTypePreviousValuesSubscription>() => T;
+}
+
+export interface OfferPreviousValues {
+  id: ID_Output;
+  max_promo_discount_value?: Int;
+  min_order?: Int;
+  promo_description?: String;
+  promo_discount_type?: String;
+  promo_discount_value?: Int;
+  promo_name?: String;
+  promo_start?: String;
+  promo_usage_limit?: Int;
+  promo_validity?: String;
+}
+
+export interface OfferPreviousValuesPromise
+  extends Promise<OfferPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  max_promo_discount_value: () => Promise<Int>;
+  min_order: () => Promise<Int>;
+  promo_description: () => Promise<String>;
+  promo_discount_type: () => Promise<String>;
+  promo_discount_value: () => Promise<Int>;
+  promo_name: () => Promise<String>;
+  promo_start: () => Promise<String>;
+  promo_usage_limit: () => Promise<Int>;
+  promo_validity: () => Promise<String>;
+}
+
+export interface OfferPreviousValuesSubscription
+  extends Promise<AsyncIterator<OfferPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  max_promo_discount_value: () => Promise<AsyncIterator<Int>>;
+  min_order: () => Promise<AsyncIterator<Int>>;
+  promo_description: () => Promise<AsyncIterator<String>>;
+  promo_discount_type: () => Promise<AsyncIterator<String>>;
+  promo_discount_value: () => Promise<AsyncIterator<Int>>;
+  promo_name: () => Promise<AsyncIterator<String>>;
+  promo_start: () => Promise<AsyncIterator<String>>;
+  promo_usage_limit: () => Promise<AsyncIterator<Int>>;
+  promo_validity: () => Promise<AsyncIterator<String>>;
+}
+
+export interface CancelReasonPreviousValues {
+  id: ID_Output;
+  value: String;
+  label: String;
+}
+
+export interface CancelReasonPreviousValuesPromise
+  extends Promise<CancelReasonPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  value: () => Promise<String>;
+  label: () => Promise<String>;
+}
+
+export interface CancelReasonPreviousValuesSubscription
+  extends Promise<AsyncIterator<CancelReasonPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  value: () => Promise<AsyncIterator<String>>;
+  label: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
+}
+
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
+}
+
+export interface CarType {
+  id: ID_Output;
+  convenience_fees?: Int;
+  image?: String;
+  name?: String;
+  rate_per_hour?: Int;
+  rate_per_kilometer?: String;
+  updatedAt: DateTimeOutput;
+}
+
+export interface CarTypePromise extends Promise<CarType>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  convenience_fees: () => Promise<Int>;
+  image: () => Promise<String>;
+  name: () => Promise<String>;
+  rate_per_hour: () => Promise<Int>;
+  rate_per_kilometer: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface CarTypeSubscription
+  extends Promise<AsyncIterator<CarType>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  convenience_fees: () => Promise<AsyncIterator<Int>>;
+  image: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  rate_per_hour: () => Promise<AsyncIterator<Int>>;
+  rate_per_kilometer: () => Promise<AsyncIterator<String>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface CarTypeNullablePromise
+  extends Promise<CarType | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  convenience_fees: () => Promise<Int>;
+  image: () => Promise<String>;
+  name: () => Promise<String>;
+  rate_per_hour: () => Promise<Int>;
+  rate_per_kilometer: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface CarTypeConnection {
+  pageInfo: PageInfo;
+  edges: CarTypeEdge[];
+}
+
+export interface CarTypeConnectionPromise
+  extends Promise<CarTypeConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<CarTypeEdge>>() => T;
+  aggregate: <T = AggregateCarTypePromise>() => T;
+}
+
+export interface CarTypeConnectionSubscription
+  extends Promise<AsyncIterator<CarTypeConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CarTypeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCarTypeSubscription>() => T;
+}
+
+export interface AggregateCarType {
+  count: Int;
+}
+
+export interface AggregateCarTypePromise
+  extends Promise<AggregateCarType>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCarTypeSubscription
+  extends Promise<AsyncIterator<AggregateCarType>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+The `Boolean` scalar type represents `true` or `false`.
 */
-export type Int = number;
+export type Boolean = boolean;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
@@ -1780,16 +1695,6 @@ export type ID_Output = string;
 export type Long = string;
 
 /*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
-
-/*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-*/
-export type String = string;
-
-/*
 DateTime scalar input type, allowing Date
 */
 export type DateTimeInput = Date | string;
@@ -1798,6 +1703,16 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
+
+/*
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+*/
+export type String = string;
 
 /**
  * Model Metadata
@@ -1818,10 +1733,6 @@ export const models: Model[] = [
   },
   {
     name: "CarType",
-    embedded: false
-  },
-  {
-    name: "Reward",
     embedded: false
   }
 ];

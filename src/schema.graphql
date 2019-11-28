@@ -13,6 +13,12 @@ type Query {
     first: Int
     orderBy: UserOrderByInput
   ): Feed!
+  getBookings(
+    filter: String
+    skip: Int
+    first: Int
+    orderBy: BookingOrderByInput
+  ): FeedBooking!
   getCancelReason: [CancelReason]
   getOffers: [Offer]
   getCarType: [CarType]
@@ -25,6 +31,7 @@ type Query {
 # vote: Permet aux utilisateurs authentifiés de voter pour un lien existant
 type Mutation {
   postUser(url: String!, description: String!): User!
+  postBooking(carType: String, customer_name: String): Booking
   postCancelReason(value: String!, label: String!): CancelReason
   postOffer(
     max_promo_discount_value: Int
@@ -108,6 +115,11 @@ type AuthPayload {
 # Récupère tous les liens du backend, notez que cette requête autorise également les arguments de filtrage, de tri et de pagination
 type Feed {
   users: [User!]!
+  count: Int!
+}
+
+type FeedBooking {
+  bookings: [Booking!]!
   count: Int!
 }
 
@@ -198,6 +210,15 @@ type Reward {
 }
 
 enum UserOrderByInput {
+  description_ASC
+  description_DESC
+  url_ASC
+  url_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+enum BookingOrderByInput {
   description_ASC
   description_DESC
   url_ASC

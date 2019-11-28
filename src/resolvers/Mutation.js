@@ -50,6 +50,14 @@ function postUser(parent, args, context, info) {
   });
 }
 
+function postBooking(parent, args, context, info) {
+  const userId = getUserId(context);
+  return context.prisma.createBooking({
+    carType: args.carType,
+    customer_name: args.customer_name
+  });
+}
+
 function postCancelReason(parent, args, context, info) {
   const userId = getUserId(context);
   return context.prisma.createCancelReason({
@@ -211,6 +219,7 @@ module.exports = {
   signup,
   login,
   postUser,
+  postBooking,
   postCancelReason,
   postOffer,
   postCarType,

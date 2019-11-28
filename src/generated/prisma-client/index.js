@@ -21,7 +21,7 @@ var models = [
     embedded: false
   },
   {
-    name: "Reward",
+    name: "Booking",
     embedded: false
   }
 ];

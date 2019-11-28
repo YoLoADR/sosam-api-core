@@ -13,6 +13,12 @@ type Query {
     first: Int
     orderBy: UserOrderByInput
   ): Feed!
+  getBookings(
+    filter: String
+    skip: Int
+    first: Int
+    orderBy: BookingOrderByInput
+  ): FeedBooking!
   getCancelReason: [CancelReason]
   getOffers: [Offer]
   getCarType: [CarType]
@@ -25,6 +31,7 @@ type Query {
 # vote: Permet aux utilisateurs authentifiés de voter pour un lien existant
 type Mutation {
   postUser(url: String!, description: String!): User!
+  postBooking(carType: String, customer_name: String): Booking
   postCancelReason(value: String!, label: String!): CancelReason
   postOffer(
     max_promo_discount_value: Int
@@ -54,6 +61,13 @@ type Mutation {
     url: String
     usertype: String
     isAdmin: Boolean
+    lastName: String
+    firstName: String
+    mobile: String
+    profile_image: String
+    approved: Boolean
+    refferalBonus: String
+    profession: String
   ): User
 
   updateCancelReason(id: ID!, value: String, label: String): CancelReason
@@ -104,6 +118,11 @@ type Feed {
   count: Int!
 }
 
+type FeedBooking {
+  bookings: [Booking!]!
+  count: Int!
+}
+
 type User {
   id: ID!
   name: String!
@@ -113,6 +132,40 @@ type User {
   url: String
   usertype: String
   isAdmin: Boolean
+  lastName: String
+  firstName: String
+  updatedAt: DateTime!
+  mobile: String
+  profile_image: String
+  approved: Boolean
+  refferalBonus: String
+  profession: String
+}
+
+type Booking {
+  id: ID!
+  tripdate: String
+  trip_start_time: String
+  trip_end_time: String
+  customer_name: String
+  carType: String
+  vehicle_number: String
+  driver_number: String
+  passenger_number: String
+  kilometer_number: String
+  hour_number: String
+  day_number: String
+  pickupAddress: String
+  pickupCity: String
+  dropAddress: String
+  dropCity: String
+  driver_name: String
+  status: String
+  trip_cost: String
+  discount: String
+  payment_status: String
+  createdAt: DateTime!
+  comment: String
 }
 
 type CancelReasons {
@@ -157,6 +210,15 @@ type Reward {
 }
 
 enum UserOrderByInput {
+  description_ASC
+  description_DESC
+  url_ASC
+  url_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+enum BookingOrderByInput {
   description_ASC
   description_DESC
   url_ASC

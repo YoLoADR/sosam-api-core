@@ -50,6 +50,14 @@ function postUser(parent, args, context, info) {
   });
 }
 
+function postBooking(parent, args, context, info) {
+  const userId = getUserId(context);
+  return context.prisma.createBooking({
+    carType: args.carType,
+    customer_name: args.customer_name
+  });
+}
+
 function postCancelReason(parent, args, context, info) {
   const userId = getUserId(context);
   return context.prisma.createCancelReason({
@@ -111,7 +119,14 @@ async function updateUser(parent, args, context, info) {
       description: args.description,
       url: args.url,
       usertype: args.usertype,
-      isAdmin: args.isAdmin
+      isAdmin: args.isAdmin,
+      lastName: args.lastName,
+      firstName: args.firstName,
+      mobile: args.mobile,
+      profile_image: args.profile_image,
+      approved: args.approved,
+      refferalBonus: args.refferalBonus,
+      profession: args.profession
     }
   });
   return updatedUser;
@@ -204,6 +219,7 @@ module.exports = {
   signup,
   login,
   postUser,
+  postBooking,
   postCancelReason,
   postOffer,
   postCarType,

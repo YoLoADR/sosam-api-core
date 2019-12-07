@@ -28,6 +28,6 @@ var models = [
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
   typeDefs,
   models,
-  endpoint: `http://localhost:4466`
+  endpoint: `https://eu1.prisma.sh/yohann-loic-ravino-51f9e2/sosam-api-core/dev`
 });
 exports.prisma = new exports.Prisma();

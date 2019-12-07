@@ -15,7 +15,6 @@ type User {
   approved: Boolean
   refferalBonus: String
   profession: String
-  
 }
 
 type CancelReason {

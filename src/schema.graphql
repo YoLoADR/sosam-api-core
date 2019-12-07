@@ -30,8 +30,70 @@ type Query {
 # login: Connecter un utilisateur existant
 # vote: Permet aux utilisateurs authentifiés de voter pour un lien existant
 type Mutation {
-  postUser(url: String!, description: String!): User!
-  postBooking(carType: String, customer_name: String): Booking
+  # (!) postUser == signup
+  postUser(
+    name: String!
+    email: String!
+    password: String!
+    description: String
+    usertype: String
+    isAdmin: Boolean
+    lastName: String
+    firstName: String
+    mobile: String
+    profile_image: String
+    approved: Boolean
+    refferalBonus: String
+    profession: String
+  ): User
+  # BOOKING CRUD
+  postBooking(
+    carType: String
+    customer_name: String
+    vehicle_number: String
+    driver_number: String
+    passenger_number: String
+    kilometer_number: String
+    hour_number: String
+    day_number: String
+    pickupAddress: String
+    pickupCity: String
+    dropAddress: String
+    dropCity: String
+    driver_name: String
+    status: String
+    trip_cost: String
+    discount: String
+    payment_status: String
+    comment: String
+  ): Booking
+  updateBooking(
+    id: ID!
+    tripdate: String
+    trip_start_time: String
+    trip_end_time: String
+    customer_name: String
+    carType: String
+    vehicle_number: String
+    driver_number: String
+    passenger_number: String
+    kilometer_number: String
+    hour_number: String
+    day_number: String
+    pickupAddress: String
+    pickupCity: String
+    dropAddress: String
+    dropCity: String
+    driver_name: String
+    status: String
+    trip_cost: String
+    discount: String
+    payment_status: String
+    comment: String
+  ): Booking
+
+  deleteBooking(id: ID!): Booking
+
   postCancelReason(value: String!, label: String!): CancelReason
   postOffer(
     max_promo_discount_value: Int
@@ -58,7 +120,6 @@ type Mutation {
     name: String
     email: String!
     description: String
-    url: String
     usertype: String
     isAdmin: Boolean
     lastName: String
@@ -129,7 +190,6 @@ type User {
   email: String!
   createdAt: DateTime!
   description: String
-  url: String
   usertype: String
   isAdmin: Boolean
   lastName: String

@@ -43,19 +43,78 @@ async function login(parent, args, context, info) {
 }
 
 function postUser(parent, args, context, info) {
-  const userId = getUserId(context);
   return context.prisma.createUser({
-    url: args.url,
-    description: args.description
+    name: args.name,
+    email: args.email,
+    password: args.password,
+    description: args.description,
+    usertype: args.usertype,
+    isAdmin: args.isAdmin,
+    lastName: args.lastName,
+    firstName: args.firstName,
+    mobile: args.mobile,
+    profile_image: args.profile_image,
+    approved: args.approved,
+    refferalBonus: args.refferalBonus,
+    profession: args.profession
   });
 }
 
 function postBooking(parent, args, context, info) {
-  const userId = getUserId(context);
   return context.prisma.createBooking({
     carType: args.carType,
-    customer_name: args.customer_name
+    customer_name: args.customer_name,
+    vehicle_number: args.vehicle_number,
+    driver_number: args.driver_number,
+    passenger_number: args.passenger_number,
+    kilometer_number: args.kilometer_number,
+    hour_number: args.hour_number,
+    day_number: args.day_number,
+    pickupAddress: args.pickupAddress,
+    pickupCity: args.pickupCity,
+    dropAddress: args.dropAddress,
+    dropCity: args.dropCity,
+    driver_name: args.driver_name,
+    status: args.status,
+    trip_cost: args.trip_cost,
+    discount: args.discount,
+    payment_status: args.payment_status,
+    comment: args.comment
   });
+}
+
+function updateBooking(parent, args, context, info) {
+  return context.prisma.updateBooking({
+    where: { id: args.id },
+
+    data: {
+      tripdate: args.tripdate,
+      trip_start_time: args.trip_start_time,
+      trip_end_time: args.trip_end_time,
+      customer_name: args.customer_name,
+      carType: args.carType,
+      vehicle_number: args.vehicle_number,
+      driver_number: args.driver_number,
+      passenger_number: args.passenger_number,
+      kilometer_number: args.kilometer_number,
+      hour_number: args.hour_number,
+      day_number: args.day_number,
+      pickupAddress: args.pickupAddress,
+      pickupCity: args.pickupCity,
+      dropAddress: args.dropAddress,
+      dropCity: args.dropCity,
+      driver_name: args.driver_name,
+      status: args.status,
+      discount: args.discount,
+      payment_status: args.payment_status,
+      createdAt: args.createdAt,
+      comment: args.comment
+    }
+  });
+}
+
+function deleteBooking(parent, args, context, info) {
+  return context.prisma.deleteBooking({ id: args.id });
 }
 
 function postCancelReason(parent, args, context, info) {
@@ -220,6 +279,8 @@ module.exports = {
   login,
   postUser,
   postBooking,
+  updateBooking,
+  deleteBooking,
   postCancelReason,
   postOffer,
   postCarType,

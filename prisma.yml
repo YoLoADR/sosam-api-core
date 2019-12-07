@@ -1,2 +1,10 @@
-endpoint: http://localhost:4466
+endpoint: https://eu1.prisma.sh/yohann-loic-ravino-51f9e2/sosam-api-core/dev
 datamodel: datamodel.prisma
+
+generate:
+  - generator: javascript-client
+    output: ./src/generated/prisma-client
+
+hooks:
+  post-deploy:
+    - prisma generate
